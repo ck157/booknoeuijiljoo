@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(WritingPage());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class WritingPage extends StatelessWidget {
+  const WritingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

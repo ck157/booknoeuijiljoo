@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(SplashPage());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class SplashPage extends StatelessWidget {
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
+  
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
               color: Colors.black,
             ),
             Container(
-              child: Image.asset('assets/splash.png'),
+              child: Image.asset('lib/images/Splash_Character.png'),
               height: 180.0,
               width: 400.0,
             ),
