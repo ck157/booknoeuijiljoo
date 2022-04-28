@@ -1,102 +1,140 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-//import 'HomePage.dart';
 
 void main() {
-  runApp(LoginPage());
+  runApp(SplashPage());
 }
 
-class LoginPage extends StatelessWidget {
+class SplashPage extends StatelessWidget {
+  const SplashPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginDemo(),
-    );
-  }
-}
-
-class LoginDemo extends StatefulWidget {
-  @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
-
-class _LoginDemoState extends State<LoginDemo> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Login Page"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150,
-                    /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-                    //child: Image.asset('asset/images/PUDGE.png')),
-                    child: Image.network(
-                        'https://hips.hearstapps.com/hmg-prod/images/old-books-arranged-on-shelf-royalty-free-image-1572384534.jpg?crop=0.668xw:1.00xh;0,0&resize=2048:*')),
-              ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid email id as abc@gmail.com'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
+      home: Scaffold(
+        backgroundColor: Colors.black,
+        body: Column(
+          children: [
+            Container(
+              height: 100.0,
+              width: 500.0,
+              color: Colors.black,
             ),
             Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
-                onPressed: () {
-                  //Navigator.push(
-                  //    context, MaterialPageRoute(builder: (_) => HomePage()));
-                },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+              child: Image.asset('lib/images/Splash_Character.png'),
+              height: 100.0,
+              width: 400.0,
+            ),
+            Container(
+              height: 20.0,
+              width: 500.0,
+              color: Colors.black,
+            ),
+            Text(
+              '북노의 질주',
+              style: TextStyle(
+                  fontFamilyFallback: ['CookieRun'],
+                  fontSize: 48.0,
+                  color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            Container(
+              height: 12.0,
+              width: 500.0,
+              color: Colors.black,
+            ),
+            Text(
+              '피드로 함께하는 독서 레이싱',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Container(
+              height: 12.0,
+              width: 500.0,
+              color: Colors.black,
+            ),
+            TextFormField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'ID를 입력해주세요',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.grey,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 130,
+            Container(
+              height: 10.0,
+              width: 500.0,
+              color: Colors.black,
             ),
-            Text('신규 계정 만들기')
+            TextFormField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'PASSWORD를 입력해주세요',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.grey,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 10.0,
+              width: 500.0,
+              color: Colors.black,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+                minimumSize: Size(200, 50),
+              ),
+              label: Text(
+                '로그인',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              icon: Icon(Icons.door_front_door_sharp,
+                  size: 18, color: Colors.white),
+            ),
+            Container(
+              height: 10.0,
+              width: 500.0,
+              color: Colors.black,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+                minimumSize: Size(200, 50),
+              ),
+              child: Text(
+                '회원가입',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
           ],
         ),
       ),
