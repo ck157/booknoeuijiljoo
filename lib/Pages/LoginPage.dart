@@ -98,7 +98,7 @@ class SplashPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context); //로비입장화면으로 가야함
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -121,7 +121,7 @@ class SplashPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context); //회원가입 페이지로 가야함
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
