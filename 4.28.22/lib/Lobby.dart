@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class LobbyPage extends StatefulWidget {
   LobbyPage({Key? key}) : super(key: key);
@@ -11,9 +12,17 @@ class LobbyPage extends StatefulWidget {
 class _LobbyState extends State<LobbyPage> {
   @override
   Widget build(BuildContext context) {
+    var date = '목표달성일을\n설정해보세요';
+
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.logout_rounded),
+          )
+        ],
         centerTitle: true,
         title: Text(
           'My 북클럽 로비',
@@ -50,10 +59,30 @@ class _LobbyState extends State<LobbyPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+                suffixIcon: Icon(
+                  CupertinoIcons.pen,
+                  color: Colors.white,
+                ),
+                hintText: '책 제목을 입력하세요',
+                hintStyle: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              autofocus: false,
+            ),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
-                height: 80,
+                height: 90,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -64,16 +93,29 @@ class _LobbyState extends State<LobbyPage> {
                   child: Row(
                     children: [
                       Text(
-                        '목표 달성일',
+                        '목표 달성일 🚩',
                         style: TextStyle(
                           color: Colors.white,
+                          fontSize: 20,
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        '목표 달성일을 \n설정해보세요!',
-                        style: TextStyle(
-                          color: Colors.white,
+                      TextButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(2022, 3, 5),
+                              maxTime: DateTime(2023, 6, 7), onChanged: (e) {
+                            date = '$e';
+                          }, onConfirm: (e) {
+                            date = '$e';
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.ko);
+                        },
+                        child: Text(
+                          date,
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                       Icon(
@@ -364,46 +406,56 @@ class _LobbyState extends State<LobbyPage> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20.0,
-                            top: 30,
-                          ),
-                          child: Text(
-                            '1283p',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20.0,
+                              top: 30,
+                            ),
+                            child: TextFormField(
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                fillColor: Colors.white,
+                              ),
+                              keyboardType: TextInputType.number,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20.0,
-                            top: 10,
-                          ),
-                          child: Text(
-                            '총 페이지 수',
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20.0,
+                              top: 10,
+                            ),
+                            child: Text(
+                              '총 페이지 수',
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.465,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                          Row(
+                            children: [
+                              Spacer(),
+                            ],
+                          )
+                        ],
                       ),
-                      color: Colors.grey.shade800,
+                      width: MediaQuery.of(context).size.width * 0.465,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        color: Colors.grey.shade800,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -418,14 +470,25 @@ class _LobbyState extends State<LobbyPage> {
                             left: 20.0,
                             top: 30,
                           ),
-                          child: Text(
-                            '45p',
+                          child: TextFormField(
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 30,
-                              fontWeight: FontWeight.bold,
                             ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              fillColor: Colors.white,
+                            ),
+                            keyboardType: TextInputType.number,
                           ),
+                          // child: Text(
+                          //   '45p',
+                          //   style: TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 30,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
