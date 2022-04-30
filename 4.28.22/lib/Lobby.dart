@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:instagram/bookclub_rule.dart';
+import 'package:instagram/read_page.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import 'Entrance.dart';
 import 'LoginPage.dart';
 import 'Splash.dart';
@@ -35,11 +36,10 @@ class LobbyPage extends StatefulWidget {
 
 class _LobbyState extends State<LobbyPage> {
   get pageController => null;
-
+  String date = '목표달성일을\n설정해보세요    ';
   @override
   Widget build(BuildContext context) {
-    var date = '목표달성일을\n설정해보세요';
-
+    final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final authService = context.read<AuthService>();
     final user = authService.currentUser()!;
     return Consumer<BookService>(
@@ -77,7 +77,7 @@ class _LobbyState extends State<LobbyPage> {
                     children: [
                       // 날짜 받아주는 변수
                       Text(
-                        '2022년 03월 19일',
+                        dateStr,
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -98,6 +98,35 @@ class _LobbyState extends State<LobbyPage> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => ReadPage()),
+                      );
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.red,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '독서 시작',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                   SizedBox(
                     height: 10,
                   ),
@@ -141,21 +170,31 @@ class _LobbyState extends State<LobbyPage> {
                             Spacer(),
                             TextButton(
                               onPressed: () {
-                                DatePicker.showDatePicker(context,
-                                    showTitleActions: true,
-                                    minTime: DateTime.now(),
-                                    maxTime: DateTime(2023, 6, 7),
-                                    onChanged: (e) {
-                                  date = '$e';
-                                }, onConfirm: (e) {
-                                  date = '$e';
-                                },
-                                    currentTime: DateTime.now(),
-                                    locale: LocaleType.ko);
+                                DatePicker.showDatePicker(
+                                  context,
+                                  showTitleActions: true,
+                                  minTime: DateTime.now(),
+                                  maxTime: DateTime(2023, 6, 7),
+                                  onChanged: (e) {
+                                    setState(() {
+                                      date = DateFormat('yyyy-MM-dd').format(e);
+                                    });
+                                  },
+                                  onConfirm: (e) {
+                                    setState(() {
+                                      date = DateFormat('yyyy-MM-dd').format(e);
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                  locale: LocaleType.ko,
+                                );
                               },
                               child: Text(
                                 date,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
                             Icon(
