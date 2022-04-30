@@ -486,125 +486,138 @@ class _LobbyState extends State<LobbyPage> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20.0,
-                                    top: 30,
-                                  ),
-                                  child: TextFormField(
-                                    controller: pageController,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                    ),
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      fillColor: Colors.white,
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20.0,
-                                    top: 10,
-                                  ),
-                                  child: Text(
-                                    '총 페이지 수',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade500,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.add),
-                                  onPressed: () {
-                                    // 전체 쪽수 등록
-
-                                    if (pageController.number.isNotEmpty) {
-                                      bookService.create(
-                                          pageController.pagenum, user.uid);
-                                    }
-                                  },
-                                ),
-                                Row(
+                          child: Stack(
+                            children: [
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        top: 30,
+                                      ),
+                                      child: TextFormField(
+                                        controller: pageController,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                        ),
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          fillColor: Colors.white,
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        top: 10,
+                                      ),
+                                      child: Text(
+                                        '총 페이지 수',
+                                        style: TextStyle(
+                                          color: Colors.grey.shade500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
-                                )
-                              ],
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.465,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                                ),
+                                width:
+                                    MediaQuery.of(context).size.width * 0.465,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  color: Colors.grey.shade800,
+                                ),
                               ),
-                              color: Colors.grey.shade800,
-                            ),
+                              Positioned(
+                                right: 10,
+                                bottom: 0,
+                                child: IconButton(
+                                  icon: Icon(CupertinoIcons.pen),
+                                  onPressed: () {},
+                                  color: Colors.white,
+                                  iconSize: 30,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 20.0,
-                                  top: 30,
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
+                        Stack(
+                          children: [
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20.0,
+                                      top: 30,
+                                    ),
+                                    child: TextFormField(
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                      ),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        fillColor: Colors.white,
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    // child: Text(
+                                    //   '45p',
+                                    //   style: TextStyle(
+                                    //     color: Colors.white,
+                                    //     fontSize: 30,
+                                    //     fontWeight: FontWeight.bold,
+                                    //   ),
+                                    // ),
                                   ),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    fillColor: Colors.white,
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                                // child: Text(
-                                //   '45p',
-                                //   style: TextStyle(
-                                //     color: Colors.white,
-                                //     fontSize: 30,
-                                //     fontWeight: FontWeight.bold,
-                                //   ),
-                                // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20.0,
+                                      top: 10,
+                                    ),
+                                    child: Text(
+                                      '오늘 목표',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 20.0,
-                                  top: 10,
+                              width: MediaQuery.of(context).size.width * 0.465,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
                                 ),
-                                child: Text(
-                                  '오늘 목표',
-                                  style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          width: MediaQuery.of(context).size.width * 0.465,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
+                                color: Colors.grey.shade800,
+                              ),
                             ),
-                            color: Colors.grey.shade800,
-                          ),
-                        )
+                            Positioned(
+                              right: 10,
+                              bottom: 0,
+                              child: IconButton(
+                                icon: Icon(CupertinoIcons.pen),
+                                onPressed: () {},
+                                color: Colors.white,
+                                iconSize: 30,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),
