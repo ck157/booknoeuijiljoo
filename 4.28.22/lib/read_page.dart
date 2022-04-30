@@ -1,11 +1,28 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/Writing.dart';
 import 'package:provider/provider.dart';
 
+import 'auth_service.dart';
 import 'book_service.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
+  await Firebase.initializeApp(); // firebase 앱 시작
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => BookService()),
+      ],
+      child: ReadPage(),
+    ),
+  );
+}
 
 class ReadPage extends StatefulWidget {
   const ReadPage({Key? key}) : super(key: key);
@@ -24,6 +41,8 @@ class ReadPageState extends State<ReadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = context.read<AuthService>();
+    final user = authService.currentUser()!;
     return Consumer<BookService>(
       builder: (context, bookService, child) {
         return Scaffold(
@@ -313,128 +332,142 @@ class ReadPageState extends State<ReadPage> {
                   ),
                   SliverToBoxAdapter(
                     child: Container(
-                      child: ListView.builder(
-                        physics: ScrollPhysics(),
-                        itemBuilder: (BuildContext, index) {
-                          return Container(
-                            width: double.infinity,
-                            height: 90,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "24p",
-                                      style: TextStyle(
-                                          fontSize: 17, color: Colors.blue),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      child: Center(
-                                        child: Text(
-                                          '내 공개 피드',
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 13),
+                      child: FutureBuilder<QuerySnapshot>(
+                          future: bookService.read(user.uid),
+                          builder: (context, snapshot) {
+                            final documents =
+                                snapshot.data?.docs ?? []; // 포스트 가져오기
+                            return ListView.builder(
+                              physics: ScrollPhysics(),
+                              itemCount: documents.length,
+                              itemBuilder: (context, index) {
+                                final doc = documents[index];
+                                String post = doc.get('post');
+                                String page = doc.get('page');
+                                bool isDone = doc.get('isPrivate');
+                                return Container(
+                                  color: Colors.black,
+                                  width: double.infinity,
+                                  height: 90,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            page,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.blue),
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                "비밀",
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 13),
+                                              ),
+                                            ),
+                                            width: 80,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(
+                                                  5,
+                                                )),
+                                                border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.red,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        post,
+                                        style: TextStyle(
+                                          color: Colors.white,
                                         ),
                                       ),
-                                      width: 80,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.all(Radius.circular(
-                                            5,
-                                          )),
-                                          border: Border.all(
-                                            width: 1,
-                                            color: Colors.red,
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '3번째 줄 작가님 필력 대박',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('00/00/00'),
+                                          Spacer(),
+                                          Icon(
+                                            Icons.thumb_up_alt_outlined,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Divider(
+                                            color: Colors.grey,
+                                            height: 1,
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text('00/00/00'),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.thumb_up_alt_outlined,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Divider(
-                                      color: Colors.grey,
-                                      height: 1,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            // child: ListTile(
-                            //   title: Row(
-                            //     children: [
-                            //       Text(
-                            //         "24p",
-                            //         style: TextStyle(
-                            //             fontSize: 17, color: Colors.blue),
-                            //       ),
-                            //       SizedBox(
-                            //         width: 20,
-                            //       ),
-                            //       Container(
-                            //         child: Center(
-                            //           child: Text(
-                            //             '내 공개 피드',
-                            //             style: TextStyle(
-                            //                 color: Colors.red, fontSize: 13),
-                            //           ),
-                            //         ),
-                            //         width: 80,
-                            //         height: 20,
-                            //         decoration: BoxDecoration(
-                            //             borderRadius:
-                            //                 BorderRadius.all(Radius.circular(
-                            //               5,
-                            //             )),
-                            //             border: Border.all(
-                            //               width: 1,
-                            //               color: Colors.red,
-                            //             )),
-                            //       ),
-                            //     ],
-                            //   ),
-                            //   subtitle: Text(
-                            //     "책이 너무 재미있어요",
-                            //     style: TextStyle(color: Colors.white),
-                            //   ),
-                            //   trailing: Icon(
-                            //     CupertinoIcons.hand_thumbsup,
-                            //     color: Colors.white,
-                            //   ),
-                            // ),
-                          );
-                        },
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(5),
-                        scrollDirection: Axis.vertical,
-                      ),
+                                  // child: ListTile(
+                                  //   title: Row(
+                                  //     children: [
+                                  //       Text(
+                                  //         "24p",
+                                  //         style: TextStyle(
+                                  //             fontSize: 17, color: Colors.blue),
+                                  //       ),
+                                  //       SizedBox(
+                                  //         width: 20,
+                                  //       ),
+                                  //       Container(
+                                  //         child: Center(
+                                  //           child: Text(
+                                  //             '내 공개 피드',
+                                  //             style: TextStyle(
+                                  //                 color: Colors.red, fontSize: 13),
+                                  //           ),
+                                  //         ),
+                                  //         width: 80,
+                                  //         height: 20,
+                                  //         decoration: BoxDecoration(
+                                  //             borderRadius:
+                                  //                 BorderRadius.all(Radius.circular(
+                                  //               5,
+                                  //             )),
+                                  //             border: Border.all(
+                                  //               width: 1,
+                                  //               color: Colors.red,
+                                  //             )),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  //   subtitle: Text(
+                                  //     "책이 너무 재미있어요",
+                                  //     style: TextStyle(color: Colors.white),
+                                  //   ),
+                                  //   trailing: Icon(
+                                  //     CupertinoIcons.hand_thumbsup,
+                                  //     color: Colors.white,
+                                  //   ),
+                                  // ),
+                                );
+                              },
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(5),
+                              scrollDirection: Axis.vertical,
+                            );
+                          }),
                     ),
                   ),
                 ],
