@@ -9,23 +9,39 @@ import 'package:flutter/material.dart';
 // delete_post : 글 삭제하기
 // delete_comment : 댓글 삭제하기
 
-class BucketService extends ChangeNotifier {
-  final bucketCollection = FirebaseFirestore.instance.collection('bucket');
+class BookService extends ChangeNotifier {
+  final BookCollection = FirebaseFirestore.instance.collection('Book');
 
   Future<QuerySnapshot> read(String uid) async {
-    // 내 bucketList 가져오기
-    throw UnimplementedError(); // return 값 미구현 에러
+    // 내 post 가져오기
+    return BookCollection.where('uid', isEqualTo: uid).get();
   }
 
-  void create(String job, String uid) async {
-    // bucket 만들기
+  void create_post(String text, String uid, String num) async {
+    // post 작성하기
+    await BookCollection.add({
+      'uid': uid, // 유저 식별자
+      'post': text, // 포스트 작성
+      'page': num, // 페이지 수
+      'isPrivate': false, // 완료 여부
+    });
+    notifyListeners(); // 화면 갱신
+  }
+
+  void create(int pagenum, String uid) async {
+    // post 작성하기
+    await BookCollection.add({
+      'uid': uid, // 유저 식별자
+      'pagenum': pagenum, // page num
+    });
+    notifyListeners(); // 화면 갱신
   }
 
   void update(String docId, bool isDone) async {
-    // bucket isDone 업데이트
+    // post 업데이트
   }
 
   void delete(String docId) async {
-    // bucket 삭제
+    // post 삭제
   }
 }
