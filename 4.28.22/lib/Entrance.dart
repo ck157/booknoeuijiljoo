@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/Lobby.dart';
 
 void main() {
   runApp(EntrancePage());
