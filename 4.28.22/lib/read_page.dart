@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram/Writing.dart';
 import 'package:provider/provider.dart';
 
+import 'Lobby.dart';
 import 'auth_service.dart';
 import 'book_service.dart';
 
@@ -46,25 +47,27 @@ class ReadPageState extends State<ReadPage> {
     return Consumer<BookService>(
       builder: (context, bookService, child) {
         return Scaffold(
-          // appBar: AppBar(
-          //   centerTitle: true,
-          //   title: Text(
-          //     '독서',
-          //     style: TextStyle(
-          //       color: Colors.white,
-          //     ),
-          //   ),
-          //   backgroundColor: Colors.black87,
-          //   actions: [
-          //     Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: IconButton(
-          //         icon: Icon(CupertinoIcons.bell),
-          //         onPressed: () {},
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(CupertinoIcons.back, color: Colors.white),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LobbyPage()),
+                );
+              },
+            ),
+            backgroundColor: Colors.black87,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(CupertinoIcons.bell),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
           drawer: Drawer(
             backgroundColor: Colors.black.withAlpha(220),
             child: ListView(
@@ -195,18 +198,18 @@ class ReadPageState extends State<ReadPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    currentPage = currentPage - 1;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.expand_more,
-                                  color: Colors.white70,
-                                  size: 60,
-                                ),
-                              ),
+                              //      IconButton(
+                              //        onPressed: () {
+                              //           setState(() {
+                              //            currentPage = currentPage - 1;
+                              //           });
+                              //         },
+                              //        icon: Icon(
+                              //           Icons.expand_more,
+                              //           color: Colors.white70,
+                              //         size: 60,
+                              //        ),
+                              //     ),
                               SizedBox(
                                 width: 30,
                               ),
@@ -218,24 +221,26 @@ class ReadPageState extends State<ReadPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
-                                child: Center(
-                                  child: RichText(
-                                      text: TextSpan(children: [
-                                    TextSpan(
-                                      text: '$currentPage',
-                                      style: TextStyle(
-                                        fontSize: 38,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '  p',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ])),
+                                child: TextFormField(
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 38),
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    labelText: '현재 페이지',
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey, fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                ' p ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
                               ),
                               SizedBox(
@@ -247,25 +252,58 @@ class ReadPageState extends State<ReadPage> {
                                     height: 30,
                                   ),
                                   Text(
-                                    ' / 150p',
+                                    ' / ',
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontSize: 60,
                                     ),
                                   ),
                                 ],
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    currentPage = currentPage + 1;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.expand_less,
-                                  color: Colors.white70,
-                                  size: 60,
+                              Container(
+                                width: 70,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Center(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '$currentPage', //로비페이지의 전체 쪽수가져오기//
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: '  p',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
+                              //   IconButton(
+                              //     onPressed: () {
+                              //       setState(() {
+                              //         currentPage = currentPage + 1;
+                              //       });
+                              //     },
+                              //     icon: Icon(
+                              //       Icons.expand_less,
+                              //        color: Colors.white70,
+                              //       size: 60,
+                              //     ),
+                              //   ),
                             ],
                           ),
                           SizedBox(
