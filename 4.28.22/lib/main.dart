@@ -1,7 +1,7 @@
+import 'package:booknoejilju/bookclub_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/Entrance.dart';
-import 'package:instagram/read_page.dart';
+
 import 'package:provider/provider.dart';
 
 import 'Lobby.dart';
@@ -18,7 +18,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => BookService()),
+        ChangeNotifierProvider(create: ((context) => ClubService())),
       ],
       child: const MyApp(),
     ),

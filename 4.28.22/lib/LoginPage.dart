@@ -41,14 +41,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 Container(
-                  height: 60.0,
+                  height: 100.0,
                   width: 500.0,
                   color: Colors.black,
                 ),
                 Container(
                   child: Image.asset('lib/images/Splash_Character.png'),
-                  height: 150.0,
-                  width: 350.0,
+                  height: 100.0,
+                  width: 400.0,
                 ),
                 Container(
                   height: 20.0,
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  height: 5.0,
+                  height: 12.0,
                   width: 500.0,
                   color: Colors.black,
                 ),
@@ -77,20 +77,18 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  height: 30.0,
-                  width: 400.0,
+                  height: 12.0,
+                  width: 500.0,
                   color: Colors.black,
                 ),
-                Container(
-                height: 50,
-                child: TextFormField(
+                TextField(
                   controller: emailController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintText: 'ID를 입력해주세요',
                     border: OutlineInputBorder(),
                     filled: true,
-                    fillColor: Colors.grey[700],
+                    fillColor: Colors.grey,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       borderSide: BorderSide(
@@ -99,22 +97,19 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ),
                 Container(
                   height: 10.0,
-                  width: 400.0,
+                  width: 500.0,
                   color: Colors.black,
                 ),
-                Container(
-                height: 50.0,
-                child: TextFormField(
+                TextField(
                   controller: passwordController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintText: 'PASSWORD를 입력해주세요',
                     border: OutlineInputBorder(),
                     filled: true,
-                    fillColor: Colors.grey[700],
+                    fillColor: Colors.grey,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       borderSide: BorderSide(
@@ -123,7 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ),
                 Container(
                   height: 10.0,
                   width: 500.0,
@@ -143,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         // EntrancePage로 이동
                         Navigator.pushReplacement(
+                          //push replacement는 전 context를 지움
                           context,
                           MaterialPageRoute(
                               builder: (context) => EntrancePage()),
@@ -158,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
-                    minimumSize: Size(400, 50),
+                    minimumSize: Size(200, 50),
                   ),
                   label: Text(
                     '로그인',
@@ -171,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                       size: 18, color: Colors.white),
                 ),
                 Container(
-                  height: 60.0,
+                  height: 10.0,
                   width: 500.0,
                   color: Colors.black,
                 ),
@@ -196,8 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                     // Navigator.pop(context); //회원가입 페이지로 가야함 (추후 작업 예정)
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.grey[600],
-                    minimumSize: Size(400, 50),
+                    backgroundColor: Colors.red,
+                    minimumSize: Size(200, 50),
                   ),
                   child: Text(
                     '회원가입',

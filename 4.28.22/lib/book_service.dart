@@ -46,3 +46,19 @@ class BookService extends ChangeNotifier {
     // post 삭제
   }
 }
+
+
+
+
+// class OurUser {
+//   String uid;
+//   String nickname;
+//   Timestamp clubCreated;
+//   String groupId;
+
+//   OurUser({
+//     required this.uid,
+//     required this.nickname,
+//     required this.clubCreated,
+//     required this.groupId,
+//   });

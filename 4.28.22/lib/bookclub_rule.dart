@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'Lobby.dart';
-
 void main() {
   runApp(BookClubRule());
 }
@@ -18,12 +16,9 @@ class BookClubRule extends StatelessWidget {
         backgroundColor: Colors.black,
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(CupertinoIcons.back, color: Colors.white),
+            icon: Icon(CupertinoIcons.chevron_back, color: Colors.white),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LobbyPage()),
-              );
+              Navigator.pop(context);
             },
           ),
           actions: [
