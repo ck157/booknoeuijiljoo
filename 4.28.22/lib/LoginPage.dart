@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                 height: 50,
                 child: TextFormField(
+                  controller: emailController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintText: 'ID를 입력해주세요',
@@ -107,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                 height: 50.0,
                 child: TextFormField(
+                  controller: passwordController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintText: 'PASSWORD를 입력해주세요',
