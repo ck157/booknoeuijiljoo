@@ -1,15 +1,15 @@
-import 'package:booknoejilju/bookclub_service.dart';
+import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'Lobby.dart';
-import 'LoginPage.dart';
-import 'Splash.dart';
-import 'Writing.dart';
-import 'auth_service.dart';
-import 'book_service.dart';
+import 'pages/Lobby.dart';
+import 'pages/LoginPage.dart';
+import 'pages/Splash.dart';
+import 'pages/Writing.dart';
+import 'services/auth_service.dart';
+import 'services/book_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
