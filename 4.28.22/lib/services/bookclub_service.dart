@@ -17,6 +17,8 @@ class ClubService extends ChangeNotifier {
   final ClubCollection = FirebaseFirestore.instance.collection('Book');
   // final membersCollection = FirebaseFirestore.instance.collection('clubs').doc();
   String docId = '';
+  String userid = '';
+
   getClub(String clubId) async {
     // 단하나의 스냅샷 조회
     DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -55,7 +57,7 @@ class ClubService extends ChangeNotifier {
     // return snapshot.data();
   }
 
-  Future<QuerySnapshot> getdocId(String uid) async {
+  getdocId(String uid) async {
     // QuerySnapshot<Map<String, dynamic>>
     QuerySnapshot<Map<String, dynamic>> snapshot = await ClubCollection.where(
       'leader',
@@ -92,15 +94,7 @@ class ClubService extends ChangeNotifier {
     return ref.id;
   }
 
-  //docId를 추가해주는 함수.(방 생성시)
-  void add_docId(
-    String docId,
-  ) async {
-    await ClubCollection.doc(docId).update({
-      'docId': docId,
-    });
-  }
-
+  //Entrance에서 코드치고 들어갈 때,,
   void createmembers(
     String uid,
     int readpages,
@@ -110,7 +104,17 @@ class ClubService extends ChangeNotifier {
       'uid': uid,
       'readpages': readpages,
     });
+    userid = uid;
     notifyListeners();
+  }
+
+  //docId를 추가해주는 함수.(방 생성시)
+  void add_docId(
+    String docId,
+  ) async {
+    await ClubCollection.doc(docId).update({
+      'docId': docId,
+    });
   }
 
 //lobby에서 토탈페이지 업데이트
