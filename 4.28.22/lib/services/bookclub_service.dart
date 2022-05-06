@@ -137,18 +137,18 @@ class ClubService extends ChangeNotifier {
     );
   }
 
-  Future<String> gettotalpages(String docId) async {
+  Future<dynamic> gettotalpages(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await ClubCollection.doc(docId).get();
     print(snapshot.data());
-    return snapshot.data()!['total_pages'];
+    return snapshot.data()?['total_pages'];
   }
 
-  Future<String> gettodaypages(String docId) async {
+  Future<dynamic> gettodaypages(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await ClubCollection.doc(docId).get();
     print(snapshot.data());
-    return snapshot.data()!['today_goal'];
+    return snapshot.data()?['today_goal'];
   }
 
   // 업뎃하고, 초깃값이 아니라면 textfield가 아니라 text를 띄워주는 방향으로

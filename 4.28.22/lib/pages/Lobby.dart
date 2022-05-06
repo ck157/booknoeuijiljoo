@@ -50,14 +50,14 @@ class _LobbyState extends State<LobbyPage> {
     // 왜 restart하면 안되지??
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
-        pageController.text = await Provider.of<ClubService>(context)
-            .gettotalpages(ClubService().docId);
+        // pageController.text = await Provider.of<ClubService>(context)
+        //     .gettotalpages(ClubService().docId);
       },
     );
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
-        _todayController.text = await Provider.of<ClubService>(context)
-            .gettodaypages(ClubService().docId);
+        // _todayController.text = await Provider.of<ClubService>(context)
+        //     .gettodaypages(ClubService().docId);
       },
     );
     super.initState();
@@ -75,12 +75,15 @@ class _LobbyState extends State<LobbyPage> {
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
             return FutureBuilder<QuerySnapshot>(
-              future: clubService.getdocId(user.uid),
+              future: clubService.ClubCollection.where(
+                'leader',
+                isEqualTo: user.uid,
+              ).get(),
               builder: (context, snapshot) {
                 final docs = snapshot.data?.docs;
-                final doc = docs![0];
+                final doc = docs?[0];
 
-                String inviteCode = doc.get('docId');
+                String inviteCode = doc?.get('docId');
 
                 return GestureDetector(
                   onTap: () => FocusScope.of(context).unfocus(),
