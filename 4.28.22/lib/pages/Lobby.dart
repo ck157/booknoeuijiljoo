@@ -43,12 +43,23 @@ class _LobbyState extends State<LobbyPage> {
   String date = '목표달성일을\n설정해보세요    ';
 
   TextEditingController pageController = TextEditingController();
+  TextEditingController _todayController = TextEditingController();
+
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      pageController.text = await Provider.of<ClubService>(context)
-          .gettotalpages('zgYvrD8wclE1Fd4yiqhc');
-    });
+    // 왜 restart하면 안되지??
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) async {
+        pageController.text = await Provider.of<ClubService>(context)
+            .gettotalpages(ClubService().docId);
+      },
+    );
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) async {
+        _todayController.text = await Provider.of<ClubService>(context)
+            .gettodaypages(ClubService().docId);
+      },
+    );
     super.initState();
   }
 
@@ -56,7 +67,6 @@ class _LobbyState extends State<LobbyPage> {
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
     // TextEditingController pageController = TextEditingController();
-    TextEditingController _todayController = TextEditingController();
 
     return Consumer<AuthService>(
       builder: (context, authService, child) {
@@ -219,6 +229,8 @@ class _LobbyState extends State<LobbyPage> {
                                             setState(() {
                                               date = DateFormat('yyyy-MM-dd')
                                                   .format(e);
+                                              clubService.update_goal_date(
+                                                  inviteCode, date);
                                             });
                                           },
                                           currentTime: DateTime.now(),

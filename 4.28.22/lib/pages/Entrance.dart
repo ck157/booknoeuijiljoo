@@ -81,7 +81,7 @@ class EntrancePage extends StatelessWidget {
               ),
               Text(
                 '''다른 사람의 초대번호를 입력하고
-    북클럽 방으로 입장해보세요.''',
+        북클럽 방으로 입장해보세요.''',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,

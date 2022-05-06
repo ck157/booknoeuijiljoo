@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 class ClubService extends ChangeNotifier {
   final ClubCollection = FirebaseFirestore.instance.collection('Book');
   // final membersCollection = FirebaseFirestore.instance.collection('clubs').doc();
-
+  String docId = '';
   getClub(String clubId) async {
     // 단하나의 스냅샷 조회
     DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -57,8 +57,10 @@ class ClubService extends ChangeNotifier {
 
   Future<QuerySnapshot> getdocId(String uid) async {
     // QuerySnapshot<Map<String, dynamic>>
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await ClubCollection.where('leader', isEqualTo: uid).get();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await ClubCollection.where(
+      'leader',
+      isEqualTo: uid,
+    ).get();
     return snapshot;
   }
   //페이지를 불러올 때 document의 id값이 불러와져야함. 그런데 그 전페이지 없이
@@ -84,7 +86,9 @@ class ClubService extends ChangeNotifier {
       'total_pages': totalpages,
       'today_goal': todaygoal,
     });
-    notifyListeners(); // 화면 갱신
+    docId = ref.id;
+    print('document Id is recorded ${docId}');
+
     return ref.id;
   }
 
@@ -132,7 +136,15 @@ class ClubService extends ChangeNotifier {
   Future<String> gettotalpages(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await ClubCollection.doc(docId).get();
+    print(snapshot.data());
     return snapshot.data()!['total_pages'];
+  }
+
+  Future<String> gettodaypages(String docId) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await ClubCollection.doc(docId).get();
+    print(snapshot.data());
+    return snapshot.data()!['today_goal'];
   }
 
   // 업뎃하고, 초깃값이 아니라면 textfield가 아니라 text를 띄워주는 방향으로
@@ -146,6 +158,15 @@ class ClubService extends ChangeNotifier {
     return ClubCollection.get();
   }
 
+  //////////////////////////////////////
+  //로비페이지 목표달성일 업데이트
+  void update_goal_date(
+    String docId,
+    String goalDate,
+  ) async {
+    await ClubCollection.doc(docId).update({'goal_date': goalDate});
+  }
+
   void create_post(String text, String uid, String num) async {
     // post 작성하기
     await ClubCollection.add({
@@ -155,5 +176,15 @@ class ClubService extends ChangeNotifier {
       'isPrivate': false, // 완료 여부
     });
     notifyListeners(); // 화면 갱신
+  }
+//코드 치고 들어갔을 때, members에 추가
+
+  void create_members(String docId, String uid) async {
+    await ClubCollection.doc(docId).collection('members').add(
+      {
+        'uid': uid,
+        'readpages': '0',
+      },
+    );
   }
 }
