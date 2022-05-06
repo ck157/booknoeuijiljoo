@@ -45,7 +45,10 @@ class _LobbyState extends State<LobbyPage> {
   TextEditingController pageController = TextEditingController();
   @override
   void initState() {
-    pageController.text = '1000';
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      pageController.text = await Provider.of<ClubService>(context)
+          .gettotalpages('zgYvrD8wclE1Fd4yiqhc');
+    });
     super.initState();
   }
 
@@ -59,8 +62,9 @@ class _LobbyState extends State<LobbyPage> {
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        return Consumer<ClubService>(builder: (context, clubService, child) {
-          return FutureBuilder<QuerySnapshot>(
+        return Consumer<ClubService>(
+          builder: (context, clubService, child) {
+            return FutureBuilder<QuerySnapshot>(
               future: clubService.getdocId(user.uid),
               builder: (context, snapshot) {
                 final docs = snapshot.data?.docs;
@@ -747,8 +751,10 @@ class _LobbyState extends State<LobbyPage> {
                     ),
                   ),
                 );
-              });
-        });
+              },
+            );
+          },
+        );
       },
     );
   }
