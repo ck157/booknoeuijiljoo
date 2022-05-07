@@ -13,7 +13,6 @@ import 'Entrance.dart';
 import 'LoginPage.dart';
 import 'Splash.dart';
 import '../services/auth_service.dart';
-import '../services/book_service.dart';
 import '../services/bookclub_service.dart';
 
 // void main() async {
@@ -23,7 +22,7 @@ import '../services/bookclub_service.dart';
 //     MultiProvider(
 //       providers: [
 //         ChangeNotifierProvider(create: (context) => AuthService()),
-//         ChangeNotifierProvider(create: (context) => BookService()),
+//         ChangeNotifierProvider(create: (context) => ClubService()),
 //       ],
 //       child: Lobby_mem(docId: ,),
 //     ),
@@ -31,8 +30,13 @@ import '../services/bookclub_service.dart';
 // }
 
 class Lobby_mem extends StatefulWidget {
-  Lobby_mem({Key? key, required docId}) : super(key: key);
-  late String docId;
+  const Lobby_mem({
+    Key? key,
+    required this.docId,
+  }) : super(key: key);
+
+  final String docId;
+
   @override
   State<Lobby_mem> createState() => _Lobby_memState();
 }
@@ -44,24 +48,24 @@ class _Lobby_memState extends State<Lobby_mem> {
   TextEditingController _todayController = TextEditingController();
 
   @override
-  void initState() {
-    // 왜 restart하면 안되지??
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        pageController.text =
-            await Provider.of<ClubService>(context, listen: false)
-                .gettotalpages(widget.docId);
-        print(pageController.text);
-      },
-    );
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        _todayController.text =
-            await Provider.of<ClubService>(context).gettodaypages(widget.docId);
-      },
-    );
-    super.initState();
-  }
+  // void initState() {
+  //   // 왜 restart하면 안되지??
+  //   WidgetsBinding.instance?.addPostFrameCallback(
+  //     (_) async {
+  //       pageController.text =
+  //           await Provider.of<ClubService>(context, listen: false)
+  //               .gettotalpages(widget.docId);
+  //       print(pageController.text);
+  //     },
+  //   );
+  //   WidgetsBinding.instance?.addPostFrameCallback(
+  //     (_) async {
+  //       _todayController.text =
+  //           await Provider.of<ClubService>(context).gettodaypages(widget.docId);
+  //     },
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +79,12 @@ class _Lobby_memState extends State<Lobby_mem> {
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
             return FutureBuilder<QuerySnapshot>(
-              future: clubService.ClubCollection.where(
-                'leader',
-                isEqualTo: user.uid,
-              ).get(),
+              future: clubService.ClubCollection.where('docId',
+                      isEqualTo: widget.docId)
+                  .get(),
               builder: (context, snapshot) {
                 final docs = snapshot.data?.docs;
+
                 final doc = docs?[0];
 
                 String inviteCode = doc?.get('docId');
@@ -226,7 +230,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                         );
                                       },
                                       child: Text(
-                                        date,
+                                        doc?['goal_date'],
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 15,
@@ -595,20 +599,6 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           color: Colors.grey.shade800,
                                         ),
                                       ),
-                                      Positioned(
-                                        right: 10,
-                                        bottom: 0,
-                                        child: IconButton(
-                                          icon: Icon(CupertinoIcons.pen),
-                                          onPressed: () {
-                                            clubService.total_page_update(
-                                                inviteCode,
-                                                pageController.text);
-                                          },
-                                          color: Colors.white,
-                                          iconSize: 30,
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ),
@@ -664,20 +654,6 @@ class _Lobby_memState extends State<Lobby_mem> {
                                         color: Colors.grey.shade800,
                                       ),
                                     ),
-                                    Positioned(
-                                      right: 10,
-                                      bottom: 0,
-                                      child: IconButton(
-                                        icon: Icon(CupertinoIcons.pen),
-                                        onPressed: () {
-                                          clubService.today_page_update(
-                                              inviteCode,
-                                              _todayController.text);
-                                        },
-                                        color: Colors.white,
-                                        iconSize: 30,
-                                      ),
-                                    )
                                   ],
                                 ),
                               ],

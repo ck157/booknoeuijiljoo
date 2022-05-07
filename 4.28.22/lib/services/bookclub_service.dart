@@ -15,6 +15,31 @@ import 'package:flutter/material.dart';
 
 class ClubService extends ChangeNotifier {
   final ClubCollection = FirebaseFirestore.instance.collection('Book');
+  final UserCollection = FirebaseFirestore.instance.collection('User');
+
+  createuid(String uid) async {
+    await UserCollection.add(
+      {
+        'uid': uid,
+        'docId': 'unavailable',
+      },
+    );
+  }
+
+  updateuserdocId(String uid, String docId) async {
+    CollectionReference<Map<String, dynamic>> user =
+        FirebaseFirestore.instance.collection('User');
+    user.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((document) {
+        if (document.data()['uid'] == uid) {
+          UserCollection.doc(document.id).update({
+            'docId': docId,
+          });
+        }
+      });
+    });
+  }
+
   // final membersCollection = FirebaseFirestore.instance.collection('clubs').doc();
   String docId = '';
   String userid = '';
@@ -198,3 +223,5 @@ class ClubService extends ChangeNotifier {
 /// 모든 유저를 담는 컬랙션.
 /// docId와 currentroomdocId 연결지어 저장. 
 /// 
+/// 
+/// FirebaseStore.instance .reference() .child('users') .child(FirebaseAuth.instance.currentUser?.uid ?? '') .child('currenDocId'); null != => Lobby(); null => Entrance();
