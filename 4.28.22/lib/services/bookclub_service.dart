@@ -25,8 +25,23 @@ class ClubService extends ChangeNotifier {
       },
     );
   }
+//docId치고 들어갔을 때, user의 docId값을 update시켜버림.
 
   updateuserdocId(String uid, String docId) async {
+    CollectionReference<Map<String, dynamic>> user =
+        FirebaseFirestore.instance.collection('User');
+    user.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((document) {
+        if (document.data()['uid'] == uid) {
+          UserCollection.doc(document.id).update({
+            'docId': docId,
+          });
+        }
+      });
+    });
+  }
+
+  updateleaderdocId(String uid, String docId) async {
     CollectionReference<Map<String, dynamic>> user =
         FirebaseFirestore.instance.collection('User');
     user.get().then((querySnapshot) {
@@ -221,7 +236,7 @@ class ClubService extends ChangeNotifier {
 
 ///
 /// 모든 유저를 담는 컬랙션.
-/// docId와 currentroomdocId 연결지어 저장. 
-/// 
-/// 
+/// docId와 currentroomdocId 연결지어 저장.
+///
+///
 /// FirebaseStore.instance .reference() .child('users') .child(FirebaseAuth.instance.currentUser?.uid ?? '') .child('currenDocId'); null != => Lobby(); null => Entrance();

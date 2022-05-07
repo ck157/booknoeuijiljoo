@@ -1,4 +1,7 @@
 import 'package:booknoejilju/services/bookclub_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         final authService = context.read<AuthService>();
         final user = authService.currentUser();
         return Consumer<ClubService>(builder: (context, clubService, child) {
+          print(user!.uid);
           return Scaffold(
             backgroundColor: Colors.black,
             body: SingleChildScrollView(
@@ -133,10 +137,6 @@ class _LoginPageState extends State<LoginPage> {
                         email: emailController.text,
                         password: passwordController.text,
                         onSuccess: () {
-                          if (user != '') {
-                            clubService.createuid(user!.uid);
-                          }
-
                           // 로그인 성공
 
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -186,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                         email: emailController.text,
                         password: passwordController.text,
                         onSuccess: () {
+                          clubService.createuid(user.uid);
                           // 회원가입 성공
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("회원가입 성공"),
@@ -211,6 +212,16 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 18,
                       ),
                     ),
+                  ),
+                  IconButton(
+                    color: Colors.white,
+                    onPressed: () async {
+                      // 로그아웃
+                      print(FirebaseAuth.instance.currentUser?.uid);
+                      await FirebaseAuth.instance.signOut();
+                      print(FirebaseAuth.instance.currentUser?.uid);
+                    },
+                    icon: Icon(Icons.logout_rounded),
                   ),
                 ],
               ),

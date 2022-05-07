@@ -8,12 +8,13 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../services/auth_service.dart';
+import '../services/book_service.dart';
+import '../services/bookclub_service.dart';
 import 'Splash.dart';
 
-import 'auth_service.dart';
-import 'book_service.dart';
 import 'bookclub_rule.dart';
-import 'bookclub_service.dart';
+
 import 'read_page.dart';
 
 void main() async {
@@ -95,19 +96,21 @@ class _LobbyState extends State<LobbyPage> {
                     backgroundColor: Colors.black87,
                     appBar: AppBar(
                       actions: [
-                        IconButton(
-                          onPressed: () {
-                            // 로그아웃
-                            context.read<AuthService>().signOut();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SplashPage(),
-                              ),
-                            );
-                          },
-                          icon: Icon(Icons.logout_rounded),
-                        ),
+                        // //
+                        // IconButton(
+                        //   onPressed: () {
+                        //     // 로그아웃
+                        //     context.read<AuthService>().signOut();
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => SplashPage(),
+                        //       ),
+                        //     );
+                        //   },
+                        //   icon: Icon(Icons.logout_rounded),
+                        // ),
+                        // //
                       ],
                       centerTitle: true,
                       title: Text(

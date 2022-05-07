@@ -70,6 +70,7 @@ class _Lobby_memState extends State<Lobby_mem> {
   @override
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
     // TextEditingController pageController = TextEditingController();
 
     return Consumer<AuthService>(
@@ -94,21 +95,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                   child: Scaffold(
                     backgroundColor: Colors.black87,
                     appBar: AppBar(
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            // 로그아웃
-                            context.read<AuthService>().signOut();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SplashPage(),
-                              ),
-                            );
-                          },
-                          icon: Icon(Icons.logout_rounded),
-                        ),
-                      ],
+                      actions: [],
                       centerTitle: true,
                       title: Text(
                         'My 북클럽 로비',
@@ -204,37 +191,11 @@ class _Lobby_memState extends State<Lobby_mem> {
                                       ),
                                     ),
                                     Spacer(),
-                                    TextButton(
-                                      onPressed: () {
-                                        DatePicker.showDatePicker(
-                                          context,
-                                          showTitleActions: true,
-                                          minTime: DateTime.now(),
-                                          maxTime: DateTime(2023, 6, 7),
-                                          onChanged: (e) {
-                                            setState(() {
-                                              date = DateFormat('yyyy-MM-dd')
-                                                  .format(e);
-                                            });
-                                          },
-                                          onConfirm: (e) {
-                                            setState(() {
-                                              date = DateFormat('yyyy-MM-dd')
-                                                  .format(e);
-                                              clubService.update_goal_date(
-                                                  inviteCode, date);
-                                            });
-                                          },
-                                          currentTime: DateTime.now(),
-                                          locale: LocaleType.ko,
-                                        );
-                                      },
-                                      child: Text(
-                                        doc?['goal_date'],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                        ),
+                                    Text(
+                                      doc?['goal_date'],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
                                       ),
                                     ),
                                     Icon(
@@ -571,6 +532,11 @@ class _Lobby_memState extends State<Lobby_mem> {
                                               ),
                                               child: Text(
                                                 doc?['total_pages'],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                             Padding(
@@ -619,6 +585,11 @@ class _Lobby_memState extends State<Lobby_mem> {
                                             ),
                                             child: Text(
                                               doc?['today_goal'],
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                             // child: Text(
                                             //   '45p',

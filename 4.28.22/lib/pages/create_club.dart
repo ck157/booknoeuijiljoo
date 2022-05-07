@@ -69,6 +69,8 @@ class _CreateClubState extends State<CreateClub> {
                       await id,
                     );
                     clubService.add_docId(await id);
+                    //User collection에서 leader의 uid부분 update
+                    clubService.updateleaderdocId(user.uid, await id);
 
                     // LobbyPage로 이동
                     Navigator.pushReplacement(
