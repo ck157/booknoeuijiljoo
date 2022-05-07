@@ -232,8 +232,34 @@ class ClubService extends ChangeNotifier {
     });
     notifyListeners(); // 화면 갱신
   }
-//코드 치고 들어갔을 때, members에 추가
 
+//코드 치고 들어갔을 때, members에 추가
+  Future getCount(String? docId) async => FirebaseFirestore.instance
+          .collection("Book")
+          .doc(docId)
+          .collection("members") //your collectionref
+          .get()
+          .then((value) {
+        var count = 0;
+        count = value.docs.length;
+        print(value);
+        return count;
+      });
+  void create(int readingpagenum, String uid) async {
+    // post 작성하기
+    await ClubCollection.add({
+      // 유저 식별자
+      'reading_pagenum': readingpagenum, // page num
+    });
+    notifyListeners(); // 화면 갱신
+  }
+
+  Future<dynamic> getreadpages(String docId) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await ClubCollection.doc(docId).get();
+    print(snapshot.data());
+    return snapshot.data()?['total_pages'];
+  }
 }
 
 ///
