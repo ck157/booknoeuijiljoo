@@ -20,6 +20,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
     Timer(
         Duration(seconds: 3),
         () => Navigator.pushReplacement(
@@ -55,7 +56,7 @@ class _SplashPageState extends State<SplashPage> {
             textAlign: TextAlign.center,
           ),
           Container(
-            height: 12.0,
+            height: 10.0,
             width: 500.0,
             color: Colors.black,
           ),
@@ -66,6 +67,24 @@ class _SplashPageState extends State<SplashPage> {
               color: Colors.white,
             ),
             textAlign: TextAlign.center,
+          ),
+          Container(
+            height: 25.0,
+            width: 480.0,
+            color: Colors.black,
+          ),
+          Container(
+            color: Colors.grey[900],
+            height: 25.0,
+            width: 180.0,
+            child: Text(
+              '앱에 접속 중입니다.',
+              style: TextStyle(
+                  fontFamilyFallback: ['CookieRun'],
+                  fontSize: 16.0,
+                  color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
