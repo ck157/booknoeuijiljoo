@@ -46,17 +46,22 @@ class ClubService extends ChangeNotifier {
     return snapshot.data();
   }
 
+////
   getClubList() async {
+    List docIdList = [];
     QuerySnapshot<Map<String, dynamic>> snapshot = await ClubCollection.get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> querySnapShotList =
         snapshot.docs;
-    querySnapShotList
-        .forEach((QueryDocumentSnapshot<Map<String, dynamic>> element) {
-      print(element.data());
-    });
+    querySnapShotList.forEach(
+      (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+        docIdList.add(element.data()['docId']);
+      },
+    );
+    return docIdList;
     // return snapshot.data();
   }
 
+/////
   getdocId(String uid) async {
     // QuerySnapshot<Map<String, dynamic>>
     QuerySnapshot<Map<String, dynamic>> snapshot = await ClubCollection.where(
@@ -69,8 +74,10 @@ class ClubService extends ChangeNotifier {
   //바로 이 페이지로 라우팅 될 수도 있음.
   //그럼 어떻게 해야하는가??
 
+/////////////////////////////////////////
   Future<String> create_club(
     String name,
+    String bookname,
     String leader,
     //초기에 지정 안되는 값
     String clubrule,
@@ -81,6 +88,7 @@ class ClubService extends ChangeNotifier {
     // post 작성하기
     DocumentReference<Map<String, dynamic>> ref = await ClubCollection.add({
       'name': name,
+      'bookname': bookname,
       'leader': leader,
       //초기에 저장 안되는 값
       'club_rule': clubrule,
@@ -97,16 +105,17 @@ class ClubService extends ChangeNotifier {
   //Entrance에서 코드치고 들어갈 때,,
   void createmembers(
     String uid,
-    int readpages,
     String docId,
   ) async {
     await ClubCollection.doc(docId).collection('members').add({
       'uid': uid,
-      'readpages': readpages,
+      'readpages': '0',
     });
     userid = uid;
     notifyListeners();
   }
+
+  /////////////////////////////////////////////////////
 
   //docId를 추가해주는 함수.(방 생성시)
   void add_docId(
@@ -183,12 +192,9 @@ class ClubService extends ChangeNotifier {
   }
 //코드 치고 들어갔을 때, members에 추가
 
-  void create_members(String docId, String uid) async {
-    await ClubCollection.doc(docId).collection('members').add(
-      {
-        'uid': uid,
-        'readpages': '0',
-      },
-    );
-  }
 }
+
+///
+/// 모든 유저를 담는 컬랙션.
+/// docId와 currentroomdocId 연결지어 저장. 
+/// 

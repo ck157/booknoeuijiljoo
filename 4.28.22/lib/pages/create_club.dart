@@ -57,6 +57,7 @@ class _CreateClubState extends State<CreateClub> {
                   onPressed: () async {
                     final id = clubService.create_club(
                       _clubname.text,
+                      'bookname',
                       user.uid,
                       'clubrule',
                       'goaldate',
@@ -65,7 +66,6 @@ class _CreateClubState extends State<CreateClub> {
                     );
                     clubService.createmembers(
                       user.uid,
-                      0,
                       await id,
                     );
                     clubService.add_docId(await id);

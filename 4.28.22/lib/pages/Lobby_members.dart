@@ -16,30 +16,28 @@ import '../services/auth_service.dart';
 import '../services/book_service.dart';
 import '../services/bookclub_service.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-  await Firebase.initializeApp(); // firebase 앱 시작
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => BookService()),
-      ],
-      child: LobbyPage(),
-    ),
-  );
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
+//   await Firebase.initializeApp(); // firebase 앱 시작
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (context) => AuthService()),
+//         ChangeNotifierProvider(create: (context) => BookService()),
+//       ],
+//       child: Lobby_mem(docId: ,),
+//     ),
+//   );
+// }
 
-class LobbyPage extends StatefulWidget {
-  LobbyPage({
-    Key? key,
-  }) : super(key: key);
-
+class Lobby_mem extends StatefulWidget {
+  Lobby_mem({Key? key, required docId}) : super(key: key);
+  late String docId;
   @override
-  State<LobbyPage> createState() => _LobbyState();
+  State<Lobby_mem> createState() => _Lobby_memState();
 }
 
-class _LobbyState extends State<LobbyPage> {
+class _Lobby_memState extends State<Lobby_mem> {
   String date = '목표달성일을\n설정해보세요    ';
 
   TextEditingController pageController = TextEditingController();
@@ -50,16 +48,16 @@ class _LobbyState extends State<LobbyPage> {
     // 왜 restart하면 안되지??
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
-        pageController.text = await Provider.of<ClubService>(context)
-            .gettotalpages(Provider.of<ClubService>(context).docId);
-        //새로운 service를 만들어버린 것.
+        pageController.text =
+            await Provider.of<ClubService>(context, listen: false)
+                .gettotalpages(widget.docId);
         print(pageController.text);
       },
     );
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
-        _todayController.text = await Provider.of<ClubService>(context)
-            .gettodaypages(ClubService().docId);
+        _todayController.text =
+            await Provider.of<ClubService>(context).gettodaypages(widget.docId);
       },
     );
     super.initState();
@@ -177,23 +175,8 @@ class _LobbyState extends State<LobbyPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          TextFormField(
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red)),
-                              suffixIcon: Icon(
-                                CupertinoIcons.pen,
-                                color: Colors.white,
-                              ),
-                              hintText: '책 제목을 입력하세요',
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            autofocus: false,
+                          Text(
+                            doc?['bookname'],
                           ),
                           Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -582,18 +565,8 @@ class _LobbyState extends State<LobbyPage> {
                                                 left: 20.0,
                                                 top: 30,
                                               ),
-                                              child: TextFormField(
-                                                controller: pageController,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 30,
-                                                ),
-                                                decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  fillColor: Colors.white,
-                                                ),
-                                                keyboardType:
-                                                    TextInputType.number,
+                                              child: Text(
+                                                doc?['total_pages'],
                                               ),
                                             ),
                                             Padding(
@@ -654,18 +627,8 @@ class _LobbyState extends State<LobbyPage> {
                                               left: 20.0,
                                               top: 30,
                                             ),
-                                            child: TextFormField(
-                                              controller: _todayController,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 30,
-                                              ),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                fillColor: Colors.white,
-                                              ),
-                                              keyboardType:
-                                                  TextInputType.number,
+                                            child: Text(
+                                              doc?['today_goal'],
                                             ),
                                             // child: Text(
                                             //   '45p',
