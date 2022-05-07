@@ -1,4 +1,3 @@
-import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +7,9 @@ import 'package:provider/provider.dart';
 
 import 'Entrance.dart';
 import 'Lobby.dart';
-import '../services/auth_service.dart';
+
+import 'auth_service.dart';
+import 'bookclub_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
@@ -41,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
         final authService = context.read<AuthService>();
         final user = authService.currentUser();
         return Consumer<ClubService>(builder: (context, clubService, child) {
-          print(user!.uid);
           return Scaffold(
             backgroundColor: Colors.black,
             body: SingleChildScrollView(
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                         email: emailController.text,
                         password: passwordController.text,
                         onSuccess: () {
-                          clubService.createuid(user.uid);
+                          clubService.createuid(user!.uid);
                           // 회원가입 성공
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("회원가입 성공"),
