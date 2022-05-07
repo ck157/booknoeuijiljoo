@@ -1,5 +1,3 @@
-import 'package:booknoejilju/pages/bookclub_rule.dart';
-import 'package:booknoejilju/pages/read_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +10,11 @@ import 'package:intl/intl.dart';
 import 'Entrance.dart';
 import 'LoginPage.dart';
 import 'Splash.dart';
-import '../services/auth_service.dart';
-import '../services/bookclub_service.dart';
+
+import 'auth_service.dart';
+import 'bookclub_rule.dart';
+import 'bookclub_service.dart';
+import 'read_page.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
@@ -89,7 +90,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                 final doc = docs?[0];
 
                 String inviteCode = doc?.get('docId');
-
+                DateTime club_date = DateTime.parse(doc?.get('goal_date'));
                 return GestureDetector(
                   onTap: () => FocusScope.of(context).unfocus(),
                   child: Scaffold(
@@ -192,7 +193,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                     ),
                                     Spacer(),
                                     Text(
-                                      doc?['goal_date'],
+                                      doc?.get('goal_date'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
@@ -429,7 +430,11 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '25일',
+                                          club_date
+                                                  .difference(DateTime.now())
+                                                  .inDays
+                                                  .toString() +
+                                              "일",
                                           style: TextStyle(
                                             color: Colors.red,
                                             fontSize: 30,
@@ -475,14 +480,21 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           left: 20.0,
                                           top: 30,
                                         ),
-                                        child: Text(
-                                          '117명',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                        child: FutureBuilder(
+                                            future: clubService
+                                                .getCount(inviteCode),
+                                            builder: (context, snapshot) {
+                                              print(
+                                                  'snapshot data:${snapshot.data}');
+                                              return Text(
+                                                snapshot.data.toString() + "명",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            }),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(

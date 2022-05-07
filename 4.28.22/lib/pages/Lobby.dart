@@ -7,14 +7,13 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
-import '../services/auth_service.dart';
-import '../services/book_service.dart';
-import '../services/bookclub_service.dart';
 import 'Splash.dart';
 
+import 'auth_service.dart';
+import 'book_service.dart';
 import 'bookclub_rule.dart';
 
+import 'bookclub_service.dart';
 import 'read_page.dart';
 
 void main() async {
@@ -538,14 +537,21 @@ class _LobbyState extends State<LobbyPage> {
                                           left: 20.0,
                                           top: 30,
                                         ),
-                                        child: Text(
-                                          '117명',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                        child: FutureBuilder(
+                                            future: clubService
+                                                .getCount(inviteCode),
+                                            builder: (context, snapshot) {
+                                              print(
+                                                  'snapshot data:${snapshot.data}');
+                                              return Text(
+                                                snapshot.data.toString() + "명",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            }),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
