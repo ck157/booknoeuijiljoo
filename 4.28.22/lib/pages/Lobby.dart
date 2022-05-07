@@ -1,5 +1,3 @@
-import 'package:booknoejilju/pages/bookclub_rule.dart';
-import 'package:booknoejilju/pages/read_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,12 +7,14 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'Entrance.dart';
-import 'LoginPage.dart';
+
 import 'Splash.dart';
-import '../services/auth_service.dart';
-import '../services/book_service.dart';
-import '../services/bookclub_service.dart';
+
+import 'auth_service.dart';
+import 'book_service.dart';
+import 'bookclub_rule.dart';
+import 'bookclub_service.dart';
+import 'read_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
@@ -41,6 +41,8 @@ class LobbyPage extends StatefulWidget {
 
 class _LobbyState extends State<LobbyPage> {
   String date = '목표달성일을\n설정해보세요    ';
+  DateTime today = DateTime.now();
+  DateTime selected_date = DateTime.now();
 
   TextEditingController pageController = TextEditingController();
   TextEditingController _todayController = TextEditingController();
@@ -228,12 +230,14 @@ class _LobbyState extends State<LobbyPage> {
                                             setState(() {
                                               date = DateFormat('yyyy-MM-dd')
                                                   .format(e);
+                                              selected_date = e;
                                             });
                                           },
                                           onConfirm: (e) {
                                             setState(() {
                                               date = DateFormat('yyyy-MM-dd')
                                                   .format(e);
+                                              selected_date = e;
                                               clubService.update_goal_date(
                                                   inviteCode, date);
                                             });
@@ -481,7 +485,11 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '25일',
+                                          selected_date
+                                                  .difference(today)
+                                                  .inDays
+                                                  .toString() +
+                                              "일",
                                           style: TextStyle(
                                             color: Colors.red,
                                             fontSize: 30,
