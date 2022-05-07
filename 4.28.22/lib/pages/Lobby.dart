@@ -53,10 +53,10 @@ class _LobbyState extends State<LobbyPage> {
     // 왜 restart하면 안되지??
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
-        pageController.text = await Provider.of<ClubService>(context)
-            .gettotalpages(Provider.of<ClubService>(context).docId);
-        //새로운 service를 만들어버린 것.
-        print(pageController.text);
+        // FirebaseFirestore.instance.collection('Book').doc();
+        // await Provider.of<ClubService>(context)
+        //     .gettotalpages(Provider.of<ClubService>(context).docId);
+        // //새로운 service를 만들어버린 것.
       },
     );
     WidgetsBinding.instance?.addPostFrameCallback(

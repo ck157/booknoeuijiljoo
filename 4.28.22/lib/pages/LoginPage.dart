@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:booknoejilju/pages/Lobby_members.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,11 +9,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 import 'Entrance.dart';
 import 'Lobby.dart';
-
-import 'auth_service.dart';
-import 'bookclub_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
@@ -136,8 +139,69 @@ class _LoginPageState extends State<LoginPage> {
                       authService.signIn(
                         email: emailController.text,
                         password: passwordController.text,
-                        onSuccess: () {
+                        onSuccess: () async {
+                          // print(user?.uid);
+                          // print(authService.currentUser()?.uid);
+
+                          QuerySnapshot<Map<String, dynamic>> data =
+                              await clubService.UserCollection.where('uid',
+                                      isEqualTo: authService.currentUser()?.uid)
+                                  .get();
+                          String userdocId = data.docs[0]['docId'];
+
+                          DocumentSnapshot<Map<String, dynamic>>
+                              documentsnapshot =
+                              await clubService.ClubCollection.doc(userdocId)
+                                  .get();
+                          print(documentsnapshot.data()?['leader']);
+
+                          // DocumentReference<Map<String, dynamic>> ref =
+                          //     clubService.ClubCollection.doc(userdocId);
+                          // inspect(ref);
+                          if (userdocId != 'unavailable') {
+                            if (documentsnapshot.data()?['leader'] ==
+                                authService.currentUser()?.uid) {
+                              Navigator.pushReplacement(
+                                //push replacement는 전 context를 지움
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LobbyPage(),
+                                ),
+                              );
+                            } else {
+                              Navigator.pushReplacement(
+                                //push replacement는 전 context를 지움
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Lobby_mem(
+                                    docId: userdocId,
+                                  ),
+                                ),
+                              );
+                            }
+                          } else {
+                            Navigator.pushReplacement(
+                              //push replacement는 전 context를 지움
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EntrancePage(),
+                              ),
+                            );
+                          }
+
                           // 로그인 성공
+                          // if(clubService.UserCollection.where('uid', isEqualTo: user?.uid).get() != 'unavailable' ) {
+                          //   if(그 docId에 leader의 uid가 얘의 uid랑 동일?){
+                          //     방장 로비
+                          //   }else{
+                          //     멤버로비
+                          //   }
+
+                          // }
+
+                          // else{
+                          //   entrancepage로 라우팅
+                          // }
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -146,12 +210,6 @@ class _LoginPageState extends State<LoginPage> {
                           );
 
                           // EntrancePage로 이동
-                          Navigator.pushReplacement(
-                            //push replacement는 전 context를 지움
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EntrancePage()),
-                          );
                         },
                         onError: (err) {
                           // 에러 발생
@@ -186,7 +244,8 @@ class _LoginPageState extends State<LoginPage> {
                         email: emailController.text,
                         password: passwordController.text,
                         onSuccess: () {
-                          clubService.createuid(user!.uid);
+                          clubService.createuid(
+                              authService.currentUser()?.uid as String);
                           // 회원가입 성공
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("회원가입 성공"),

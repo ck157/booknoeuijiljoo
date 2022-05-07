@@ -86,7 +86,7 @@ class ClubService extends ChangeNotifier {
     return snapshot.data();
   }
 
-////
+//// docId와 초대코드가 같으면 lobby_mem으로 라우팅되도록 로직을 짬.
   getClubList() async {
     List docIdList = [];
     QuerySnapshot<Map<String, dynamic>> snapshot = await ClubCollection.get();
@@ -174,6 +174,7 @@ class ClubService extends ChangeNotifier {
     await ClubCollection.doc(docId).update(
       {'total_pages': page},
     );
+    notifyListeners();
   }
 
 //lobby에서 오늘 목표 업데이트
@@ -184,6 +185,7 @@ class ClubService extends ChangeNotifier {
     await ClubCollection.doc(docId).update(
       {'today_goal': page},
     );
+    notifyListeners();
   }
 
   Future<dynamic> gettotalpages(String docId) async {
