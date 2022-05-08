@@ -309,24 +309,22 @@ class ReadPageState extends State<ReadPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Column(
-                            children: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              height: 50,
-                              child: Center(
-                                child: Text(
-                                  '현재 페이지까지 질주 피드들을 확인해보세요!',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.red,
-                                  ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 50,
+                            child: Center(
+                              child: Text(
+                                '현재 페이지까지 질주 피드들을 확인해보세요!',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.red,
                                 ),
                               ),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(color: Colors.red, width: 2),
-                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(color: Colors.red, width: 2),
                             ),
                           ),
                           SizedBox(
