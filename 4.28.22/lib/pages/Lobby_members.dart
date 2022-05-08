@@ -1,3 +1,5 @@
+import 'package:booknoejilju/services/auth_service.dart';
+import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,24 +13,9 @@ import 'Entrance.dart';
 import 'LoginPage.dart';
 import 'Splash.dart';
 
-import 'auth_service.dart';
 import 'bookclub_rule.dart';
-import 'bookclub_service.dart';
-import 'read_page.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-//   await Firebase.initializeApp(); // firebase 앱 시작
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (context) => AuthService()),
-//         ChangeNotifierProvider(create: (context) => ClubService()),
-//       ],
-//       child: Lobby_mem(docId: ,),
-//     ),
-//   );
-// }
+import 'read_page.dart';
 
 class Lobby_mem extends StatefulWidget {
   const Lobby_mem({
@@ -36,7 +23,7 @@ class Lobby_mem extends StatefulWidget {
     required this.docId,
   }) : super(key: key);
 
-  final String docId;
+  final String? docId;
 
   @override
   State<Lobby_mem> createState() => _Lobby_memState();
@@ -44,29 +31,6 @@ class Lobby_mem extends StatefulWidget {
 
 class _Lobby_memState extends State<Lobby_mem> {
   String date = '목표달성일을\n설정해보세요    ';
-
-  TextEditingController pageController = TextEditingController();
-  TextEditingController _todayController = TextEditingController();
-
-  @override
-  // void initState() {
-  //   // 왜 restart하면 안되지??
-  //   WidgetsBinding.instance?.addPostFrameCallback(
-  //     (_) async {
-  //       pageController.text =
-  //           await Provider.of<ClubService>(context, listen: false)
-  //               .gettotalpages(widget.docId);
-  //       print(pageController.text);
-  //     },
-  //   );
-  //   WidgetsBinding.instance?.addPostFrameCallback(
-  //     (_) async {
-  //       _todayController.text =
-  //           await Provider.of<ClubService>(context).gettodaypages(widget.docId);
-  //     },
-  //   );
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +163,9 @@ class _Lobby_memState extends State<Lobby_mem> {
                                         fontSize: 15,
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white54,
-                                      size: 20,
-                                    )
+                                    SizedBox(
+                                      width: 30,
+                                    ),
                                   ],
                                 ),
                               ),

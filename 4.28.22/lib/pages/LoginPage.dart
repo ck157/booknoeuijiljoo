@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:booknoejilju/pages/Lobby_members.dart';
+import 'package:booknoejilju/pages/Splash.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -143,51 +144,58 @@ class _LoginPageState extends State<LoginPage> {
                           // print(user?.uid);
                           // print(authService.currentUser()?.uid);
 
-                          QuerySnapshot<Map<String, dynamic>> data =
-                              await clubService.UserCollection.where('uid',
-                                      isEqualTo: authService.currentUser()?.uid)
-                                  .get();
-                          String userdocId = data.docs[0]['docId'];
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SplashPage(),
+                            ),
+                          );
 
-                          DocumentSnapshot<Map<String, dynamic>>
-                              documentsnapshot =
-                              await clubService.ClubCollection.doc(userdocId)
-                                  .get();
-                          print(documentsnapshot.data()?['leader']);
+                          // QuerySnapshot<Map<String, dynamic>> data =
+                          //     await clubService.UserCollection.where('uid',
+                          //             isEqualTo: authService.currentUser()?.uid)
+                          //         .get();
+                          // String userdocId = data.docs[0]['docId'];
 
-                          // DocumentReference<Map<String, dynamic>> ref =
-                          //     clubService.ClubCollection.doc(userdocId);
-                          // inspect(ref);
-                          if (userdocId != 'unavailable') {
-                            if (documentsnapshot.data()?['leader'] ==
-                                authService.currentUser()?.uid) {
-                              Navigator.pushReplacement(
-                                //push replacement는 전 context를 지움
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LobbyPage(),
-                                ),
-                              );
-                            } else {
-                              Navigator.pushReplacement(
-                                //push replacement는 전 context를 지움
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Lobby_mem(
-                                    docId: userdocId,
-                                  ),
-                                ),
-                              );
-                            }
-                          } else {
-                            Navigator.pushReplacement(
-                              //push replacement는 전 context를 지움
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EntrancePage(),
-                              ),
-                            );
-                          }
+                          // DocumentSnapshot<Map<String, dynamic>>
+                          //     documentsnapshot =
+                          //     await clubService.ClubCollection.doc(userdocId)
+                          //         .get();
+                          // print(documentsnapshot.data()?['leader']);
+
+                          // // DocumentReference<Map<String, dynamic>> ref =
+                          // //     clubService.ClubCollection.doc(userdocId);
+                          // // inspect(ref);
+                          // if (userdocId != 'unavailable') {
+                          //   if (documentsnapshot.data()?['leader'] ==
+                          //       authService.currentUser()?.uid) {
+                          //     Navigator.pushReplacement(
+                          //       //push replacement는 전 context를 지움
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => LobbyPage(),
+                          //       ),
+                          //     );
+                          //   } else {
+                          //     Navigator.pushReplacement(
+                          //       //push replacement는 전 context를 지움
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => Lobby_mem(
+                          //           docId: userdocId,
+                          //         ),
+                          //       ),
+                          //     );
+                          //   }
+                          // } else {
+                          //   Navigator.pushReplacement(
+                          //     //push replacement는 전 context를 지움
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => EntrancePage(),
+                          //     ),
+                          //   );
+                          // }
 
                           // 로그인 성공
                           // if(clubService.UserCollection.where('uid', isEqualTo: user?.uid).get() != 'unavailable' ) {

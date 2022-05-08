@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:booknoejilju/pages/bookclub_rule.dart';
+import 'package:booknoejilju/services/book_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,28 +11,11 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 import 'Splash.dart';
 
-import 'auth_service.dart';
-import 'book_service.dart';
-import 'bookclub_rule.dart';
-
-import 'bookclub_service.dart';
 import 'read_page.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-  await Firebase.initializeApp(); // firebase 앱 시작
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => BookService()),
-      ],
-      child: LobbyPage(),
-    ),
-  );
-}
 
 class LobbyPage extends StatefulWidget {
   LobbyPage({
@@ -40,38 +27,38 @@ class LobbyPage extends StatefulWidget {
 }
 
 class _LobbyState extends State<LobbyPage> {
-  String date = '목표달성일을\n설정해보세요    ';
+  @override
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    pageController.text =
+        Provider.of<AuthService>(context).totalpage ?? ' 페이지를 입력해주세요';
+    _todayController.text =
+        Provider.of<AuthService>(context).todaygoal ?? ' 페이지를 입력해주세요';
+    date = Provider.of<AuthService>(context).goaldate;
+
+    ///
+    selected_date =
+        DateTime.parse(Provider.of<AuthService>(context).goaldate as String)
+            as DateTime;
+
+    ///
+    booknameController.text =
+        Provider.of<AuthService>(context).bookname ?? '책 제목을 입력해주세요';
+  }
+
+  String? date = '목표달성일을\n설정해보세요    ';
+
   DateTime today = DateTime.now();
   DateTime selected_date = DateTime.now();
 
   TextEditingController pageController = TextEditingController();
   TextEditingController _todayController = TextEditingController();
+  TextEditingController booknameController = TextEditingController();
 
-  @override
-  void initState() {
-    // 왜 restart하면 안되지??
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        // FirebaseFirestore.instance.collection('Book').doc();
-        // await Provider.of<ClubService>(context)
-        //     .gettotalpages(Provider.of<ClubService>(context).docId);
-        // //새로운 service를 만들어버린 것.
-      },
-    );
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        _todayController.text = await Provider.of<ClubService>(context)
-            .gettodaypages(ClubService().docId);
-      },
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
     // TextEditingController pageController = TextEditingController();
-
     return Consumer<AuthService>(
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
@@ -182,15 +169,20 @@ class _LobbyState extends State<LobbyPage> {
                             height: 10,
                           ),
                           TextFormField(
+                            controller: booknameController,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red)),
-                              suffixIcon: Icon(
-                                CupertinoIcons.pen,
+                              suffixIcon: IconButton(
+                                icon: Icon(CupertinoIcons.pen),
                                 color: Colors.white,
+                                onPressed: () {
+                                  clubService.updatebookname(
+                                      inviteCode, booknameController.text);
+                                },
                               ),
                               hintText: '책 제목을 입력하세요',
                               hintStyle: TextStyle(
@@ -241,7 +233,7 @@ class _LobbyState extends State<LobbyPage> {
                                                   .format(e);
                                               selected_date = e;
                                               clubService.update_goal_date(
-                                                  inviteCode, date);
+                                                  inviteCode, date as String);
                                             });
                                           },
                                           currentTime: DateTime.now(),
@@ -249,7 +241,7 @@ class _LobbyState extends State<LobbyPage> {
                                         );
                                       },
                                       child: Text(
-                                        date,
+                                        date as String,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 15,
