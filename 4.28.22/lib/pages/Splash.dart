@@ -1,16 +1,11 @@
-import 'dart:async';
-import 'dart:developer';
-
-import 'package:booknoejilju/pages/Lobby.dart';
-import 'package:booknoejilju/pages/Lobby_members.dart';
-import 'package:booknoejilju/services/auth_service.dart';
-import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'Entrance.dart';
-import 'LoginPage.dart';
+import 'Lobby.dart';
+import 'auth_service.dart';
+import 'bookclub_service.dart';
+import 'lobby_members.dart';
 
 void main() {
   runApp(SplashPage());
@@ -122,30 +117,25 @@ class _SplashPageState extends State<SplashPage> {
               body: Column(
                 children: [
                   Container(
-                    height: 150.0,
+                    height: 20.0,
+                    width: 500.0,
+                    color: Colors.black,
+                  ),
+                  Image.asset(
+                    'lib/images/run.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'lib/images/logo.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Container(
+                    height: 10.0,
                     width: 500.0,
                     color: Colors.black,
                   ),
                   Container(
-                    child: Image.asset('lib/images/Splash_Character.png'),
-                    height: 180.0,
-                    width: 400.0,
-                  ),
-                  Container(
-                    height: 25.0,
-                    width: 500.0,
-                    color: Colors.black,
-                  ),
-                  Text(
-                    '북노의 질주',
-                    style: TextStyle(
-                        fontFamilyFallback: ['CookieRun'],
-                        fontSize: 48.0,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    height: 12.0,
+                    height: 10.0,
                     width: 500.0,
                     color: Colors.black,
                   ),
@@ -156,6 +146,25 @@ class _SplashPageState extends State<SplashPage> {
                       color: Colors.white,
                     ),
                     textAlign: TextAlign.center,
+                  ),
+                  Container(
+                    height: 30.0,
+                    width: 500.0,
+                    color: Colors.black,
+                  ),
+                  Container(
+                    height: 40.0,
+                    width: 180.0,
+                    color: Colors.grey[900],
+                    child: Center(
+                      child: Text(
+                        '앱에 접속 중입니다.',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
