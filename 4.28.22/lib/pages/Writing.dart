@@ -1,26 +1,12 @@
+import 'package:booknoejilju/pages/read_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/read_page.dart';
 
 import 'package:provider/provider.dart';
 
-import 'auth_service.dart';
-
-import 'bookclub_service.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-  await Firebase.initializeApp(); // firebase 앱 시작
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AuthService()),
-      ],
-      child: WritingPage(),
-    ),
-  );
-}
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 
 class WritingPage extends StatelessWidget {
   const WritingPage({Key? key}) : super(key: key);

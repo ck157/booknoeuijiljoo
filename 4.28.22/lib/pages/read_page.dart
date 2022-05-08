@@ -1,30 +1,16 @@
 import 'dart:async';
 
+import 'package:booknoejilju/pages/Writing.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/Writing.dart';
+
 import 'package:provider/provider.dart';
 
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 import 'Lobby.dart';
-import 'auth_service.dart';
-
-import 'bookclub_service.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-  await Firebase.initializeApp(); // firebase 앱 시작
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => ClubService()),
-      ],
-      child: ReadPage(),
-    ),
-  );
-}
 
 class ReadPage extends StatefulWidget {
   const ReadPage({Key? key}) : super(key: key);
@@ -49,15 +35,6 @@ class ReadPageState extends State<ReadPage> {
       builder: (context, clubService, child) {
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(CupertinoIcons.back, color: Colors.white),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LobbyPage()),
-                );
-              },
-            ),
             backgroundColor: Colors.black87,
             actions: [
               Padding(
@@ -69,101 +46,101 @@ class ReadPageState extends State<ReadPage> {
               ),
             ],
           ),
-          drawer: Drawer(
-            backgroundColor: Colors.black.withAlpha(220),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
-                        Icons.article_outlined,
-                        color: Colors.white70,
-                      ),
-                      Text(
-                        '   나만의 메모장',
-                        style: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
-                        Icons.chat_outlined,
-                        color: Colors.white70,
-                      ),
-                      Text(
-                        '   커뮤니티',
-                        style: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
-                        Icons.create_outlined,
-                        color: Colors.white70,
-                      ),
-                      Text(
-                        '   글쓰기',
-                        style: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Icon(
-                        Icons.undo_outlined,
-                        color: Colors.white70,
-                      ),
-                      Text(
-                        '   광장으로 돌아가기',
-                        style: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
+          // drawer: Drawer(
+          //   backgroundColor: Colors.black.withAlpha(220),
+          //   child: ListView(
+          //     children: [
+          //       SizedBox(
+          //         height: 10,
+          //       ),
+          //       ListTile(
+          //         title: Row(
+          //           children: [
+          //             Icon(
+          //               Icons.article_outlined,
+          //               color: Colors.white70,
+          //             ),
+          //             Text(
+          //               '   나만의 메모장',
+          //               style: TextStyle(
+          //                 color: Colors.white70,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //         onTap: () {
+          //           Navigator.pop(context);
+          //         },
+          //       ),
+          //       SizedBox(
+          //         height: 10,
+          //       ),
+          //       ListTile(
+          //         title: Row(
+          //           children: [
+          //             Icon(
+          //               Icons.chat_outlined,
+          //               color: Colors.white70,
+          //             ),
+          //             Text(
+          //               '   커뮤니티',
+          //               style: TextStyle(
+          //                 color: Colors.white70,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //         onTap: () {
+          //           Navigator.pop(context);
+          //         },
+          //       ),
+          //       SizedBox(
+          //         height: 10,
+          //       ),
+          //       ListTile(
+          //         title: Row(
+          //           children: [
+          //             Icon(
+          //               Icons.create_outlined,
+          //               color: Colors.white70,
+          //             ),
+          //             Text(
+          //               '   글쓰기',
+          //               style: TextStyle(
+          //                 color: Colors.white70,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //         onTap: () {
+          //           Navigator.pop(context);
+          //         },
+          //       ),
+          //       SizedBox(
+          //         height: 10,
+          //       ),
+          //       ListTile(
+          //         title: Row(
+          //           children: [
+          //             Icon(
+          //               Icons.undo_outlined,
+          //               color: Colors.white70,
+          //             ),
+          //             Text(
+          //               '   광장으로 돌아가기',
+          //               style: TextStyle(
+          //                 color: Colors.white70,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //         onTap: () {
+          //           Navigator.pop(context);
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
           body: Stack(
             children: [
               CustomScrollView(
@@ -309,24 +286,26 @@ class ReadPageState extends State<ReadPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: 50,
-                            child: Center(
-                              child: Text(
-                                '현재 페이지까지 질주 피드들을 확인해보세요!',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
+                          Column(children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 50,
+                              child: Center(
+                                child: Text(
+                                  '현재 페이지까지 질주 피드들을 확인해보세요!',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                border: Border.all(color: Colors.red, width: 2),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              border: Border.all(color: Colors.red, width: 2),
-                            ),
-                          ),
+                          ]),
                           SizedBox(
                             height: 10,
                           ),
@@ -510,7 +489,7 @@ class ReadPageState extends State<ReadPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => WritingPage()),
                       );

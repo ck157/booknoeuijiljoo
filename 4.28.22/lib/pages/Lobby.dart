@@ -28,7 +28,6 @@ class LobbyPage extends StatefulWidget {
 
 class _LobbyState extends State<LobbyPage> {
   @override
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     pageController.text =
@@ -38,9 +37,12 @@ class _LobbyState extends State<LobbyPage> {
     date = Provider.of<AuthService>(context).goaldate;
 
     ///
-    selected_date =
-        DateTime.parse(Provider.of<AuthService>(context).goaldate as String)
-            as DateTime;
+    if (Provider.of<AuthService>(context).goaldate != 'goaldate') {
+      selected_date =
+          DateTime.parse(Provider.of<AuthService>(context).goaldate as String)
+              as DateTime;
+    }
+    inviteCode = Provider.of<AuthService>(context).docId as String;
 
     ///
     booknameController.text =
@@ -48,6 +50,7 @@ class _LobbyState extends State<LobbyPage> {
   }
 
   String? date = '목표달성일을\n설정해보세요    ';
+  String inviteCode = '';
 
   DateTime today = DateTime.now();
   DateTime selected_date = DateTime.now();
@@ -74,30 +77,11 @@ class _LobbyState extends State<LobbyPage> {
                 final docs = snapshot.data?.docs;
                 final doc = docs?[0];
 
-                String inviteCode = doc?.get('docId');
-
                 return GestureDetector(
                   onTap: () => FocusScope.of(context).unfocus(),
                   child: Scaffold(
                     backgroundColor: Colors.black87,
                     appBar: AppBar(
-                      actions: [
-                        // //
-                        // IconButton(
-                        //   onPressed: () {
-                        //     // 로그아웃
-                        //     context.read<AuthService>().signOut();
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => SplashPage(),
-                        //       ),
-                        //     );
-                        //   },
-                        //   icon: Icon(Icons.logout_rounded),
-                        // ),
-                        // //
-                      ],
                       centerTitle: true,
                       title: Text(
                         'My 북클럽 로비',
