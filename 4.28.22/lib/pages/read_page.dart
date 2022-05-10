@@ -31,6 +31,7 @@ class ReadPageState extends State<ReadPage> {
   Widget build(BuildContext context) {
     final authService = context.read<AuthService>();
     final user = authService.currentUser()!;
+    String pages = authService.totalpage as String;
     return Consumer<ClubService>(
       builder: (context, clubService, child) {
         return Scaffold(
@@ -46,101 +47,7 @@ class ReadPageState extends State<ReadPage> {
               ),
             ],
           ),
-          // drawer: Drawer(
-          //   backgroundColor: Colors.black.withAlpha(220),
-          //   child: ListView(
-          //     children: [
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       ListTile(
-          //         title: Row(
-          //           children: [
-          //             Icon(
-          //               Icons.article_outlined,
-          //               color: Colors.white70,
-          //             ),
-          //             Text(
-          //               '   나만의 메모장',
-          //               style: TextStyle(
-          //                 color: Colors.white70,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         onTap: () {
-          //           Navigator.pop(context);
-          //         },
-          //       ),
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       ListTile(
-          //         title: Row(
-          //           children: [
-          //             Icon(
-          //               Icons.chat_outlined,
-          //               color: Colors.white70,
-          //             ),
-          //             Text(
-          //               '   커뮤니티',
-          //               style: TextStyle(
-          //                 color: Colors.white70,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         onTap: () {
-          //           Navigator.pop(context);
-          //         },
-          //       ),
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       ListTile(
-          //         title: Row(
-          //           children: [
-          //             Icon(
-          //               Icons.create_outlined,
-          //               color: Colors.white70,
-          //             ),
-          //             Text(
-          //               '   글쓰기',
-          //               style: TextStyle(
-          //                 color: Colors.white70,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         onTap: () {
-          //           Navigator.pop(context);
-          //         },
-          //       ),
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       ListTile(
-          //         title: Row(
-          //           children: [
-          //             Icon(
-          //               Icons.undo_outlined,
-          //               color: Colors.white70,
-          //             ),
-          //             Text(
-          //               '   광장으로 돌아가기',
-          //               style: TextStyle(
-          //                 color: Colors.white70,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         onTap: () {
-          //           Navigator.pop(context);
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // ),
+
           body: Stack(
             children: [
               CustomScrollView(
@@ -251,7 +158,7 @@ class ReadPageState extends State<ReadPage> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: "TBD", //로비페이지의 전체 쪽수가져오기//
+                                          text: pages, //로비페이지의 전체 쪽수가져오기//
                                           style: TextStyle(
                                             fontSize: 20,
                                           ),

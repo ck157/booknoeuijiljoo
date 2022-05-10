@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:booknoejilju/pages/bookclub_rule.dart';
-import 'package:booknoejilju/services/book_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -618,6 +617,8 @@ class _LobbyState extends State<LobbyPage> {
                                         child: IconButton(
                                           icon: Icon(CupertinoIcons.pen),
                                           onPressed: () {
+                                            authService.totalpage =
+                                                pageController.text;
                                             clubService.total_page_update(
                                                 inviteCode,
                                                 pageController.text);

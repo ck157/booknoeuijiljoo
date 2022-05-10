@@ -60,12 +60,12 @@ class _CreateClubState extends State<CreateClub> {
                   onPressed: () async {
                     final id = clubService.create_club(
                       _clubname.text,
-                      'bookname',
+                      '',
                       user.uid,
                       'clubrule',
                       '목표달성일을\n설정해보세요    ',
-                      'totalpages',
-                      'todaygoal',
+                      '',
+                      '',
                     );
                     clubService.createmembers(
                       user.uid,

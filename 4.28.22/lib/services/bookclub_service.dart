@@ -223,13 +223,14 @@ class ClubService extends ChangeNotifier {
     await ClubCollection.doc(docId).update({'goal_date': goalDate});
   }
 
-  void create_post(String text, String uid, String num) async {
+  void create_post(
+      String text, String uid, String num, bool isSecret, String docId) async {
     // post 작성하기
-    await ClubCollection.add({
+    await ClubCollection.doc(docId).collection('Feed').add({
       'uid': uid, // 유저 식별자
       'post': text, // 포스트 작성
       'page': num, // 페이지 수
-      'isPrivate': false, // 완료 여부
+      'isPrivate': isSecret, // 완료 여부
     });
     notifyListeners(); // 화면 갱신
   }

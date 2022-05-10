@@ -55,6 +55,8 @@ class _Lobby_memState extends State<Lobby_mem> {
 
                 String inviteCode = doc?.get('docId');
                 DateTime club_date = DateTime.parse(doc?.get('goal_date'));
+                authService.totalpage = doc?['total_pages'];
+
                 return GestureDetector(
                   onTap: () => FocusScope.of(context).unfocus(),
                   child: Scaffold(
