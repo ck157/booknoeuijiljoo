@@ -1,10 +1,12 @@
+import 'package:booknoejilju/pages/read_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'auth_service.dart';
-import 'bookclub_service.dart';
-import 'read_page.dart';
+
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 
 class WritingPage extends StatelessWidget {
   const WritingPage({Key? key}) : super(key: key);
@@ -35,7 +37,6 @@ class _FeedState extends State<Feed> {
   Widget build(BuildContext context) {
     final authService = context.read<AuthService>();
     final user = authService.currentUser()!;
-    final docId = authService.docId;
     return Consumer<ClubService>(
       builder: (context, clubService, child) {
         return Scaffold(
@@ -95,8 +96,8 @@ class _FeedState extends State<Feed> {
               TextButton(
                 onPressed: () {
                   //포스트 만들기
-                  clubService.create_post(docId, postController.text, user.uid,
-                      pageController.text);
+                  clubService.create_post(
+                      postController.text, user.uid, pageController.text);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => ReadPage()),

@@ -29,24 +29,22 @@ class LobbyPage extends StatefulWidget {
 class _LobbyState extends State<LobbyPage> {
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-    pageController.text =
-        Provider.of<AuthService>(context).totalpage ?? ' 페이지를 입력해주세요';
+    pageController.text = Provider.of<AuthService>(context).totalpage as String;
     _todayController.text =
-        Provider.of<AuthService>(context).todaygoal ?? ' 페이지를 입력해주세요';
+        Provider.of<AuthService>(context).todaygoal as String;
     date = Provider.of<AuthService>(context).goaldate;
 
     ///
-    if (Provider.of<AuthService>(context).goaldate != 'goaldate') {
+    if (Provider.of<AuthService>(context).goaldate != '목표달성일을\n설정해보세요    ') {
       selected_date =
-          DateTime.parse(Provider.of<AuthService>(context).goaldate as String)
-              as DateTime;
+          DateTime.parse(Provider.of<AuthService>(context).goaldate as String);
     }
     inviteCode = Provider.of<AuthService>(context).docId as String;
 
     ///
-    booknameController.text =
-        Provider.of<AuthService>(context).bookname ?? '책 제목을 입력해주세요';
+    booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
+
+    super.didChangeDependencies();
   }
 
   String? date = '목표달성일을\n설정해보세요    ';
@@ -61,6 +59,7 @@ class _LobbyState extends State<LobbyPage> {
 
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
     // TextEditingController pageController = TextEditingController();
     return Consumer<AuthService>(
       builder: (context, authService, child) {
@@ -517,8 +516,6 @@ class _LobbyState extends State<LobbyPage> {
                                             future: clubService
                                                 .getCount(inviteCode),
                                             builder: (context, snapshot) {
-                                              print(
-                                                  'snapshot data:${snapshot.data}');
                                               return Text(
                                                 snapshot.data.toString() + "명",
                                                 style: TextStyle(
