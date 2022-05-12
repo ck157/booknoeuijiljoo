@@ -28,11 +28,24 @@ class ReadPageState extends State<ReadPage> {
   final scrollController = ScrollController();
 
   @override
+  void didChangeDependencies() {
+    ///
+    inviteCode = Provider.of<AuthService>(context).docId as String;
+
+    ///
+    super.didChangeDependencies();
+  }
+
+  String inviteCode = '';
+
+  TextEditingController pageController = TextEditingController();
+
   Widget build(BuildContext context) {
     final authService = context.read<AuthService>();
     final user = authService.currentUser()!;
     final docID = authService.docId;
-    String pages = authService.totalpage as String;
+    String? current_pages = authService.currentpage as String;
+    String? pages = authService.totalpage as String;
     return Builder(builder: (context) {
       return Consumer<ClubService>(
         builder: (context, clubService, child) {
@@ -42,7 +55,55 @@ class ReadPageState extends State<ReadPage> {
                 final posts = snapshot.data?.docs ?? [];
                 return WillPopScope(
                   onWillPop: () async {
-                    return await false;
+                    final shouldPop = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.grey[850],
+                          title: const Text('현재 페이지 입력은 완료하셨나요?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                              textAlign: TextAlign.center),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                '이어서 보기',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                authService.currentpage = pageController.text;
+                                clubService.total_page_update(
+                                    inviteCode, pageController.text);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LobbyPage(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                '저장하고 나가기',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return shouldPop!;
                   },
                   child: Scaffold(
                     appBar: AppBar(
