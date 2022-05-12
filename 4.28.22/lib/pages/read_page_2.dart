@@ -255,109 +255,105 @@ class ReadPageState extends State<ReadPage> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: Container(
-                      child: FutureBuilder<QuerySnapshot>(
-                          future: clubService.readpost(docID!),
-                          builder: (context, snapshot) {
-                            final posts = snapshot.data?.docs ?? []; // 문서들 가져오기
-                            return ListView.builder(
-                              itemCount: posts.length,
-                              itemBuilder: (context, index) {
-                                final post = posts[index];
-                                String? pagenum = post.get('page');
-                                String? content = post.get('post');
-                                bool? isPrivate = post.get('isPrivate');
-                                physics:
-                                ScrollPhysics();
-                                itemBuilder:
-                                (BuildContext, index) {
-                                  return Container(
-                                    width: double.infinity,
-                                    height: 90,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                    child: FutureBuilder<QuerySnapshot>(
+                      future: clubService.readpost(docID!),
+                      builder: (context, snapshot) {
+                        final posts = snapshot.data?.docs ?? [];
+                        return Container(
+                          // 문서들 가져오기
+                          child: ListView.builder(
+                            physics: ScrollPhysics(),
+                            itemCount: posts.length,
+                            itemBuilder: (context, index) {
+                              final post = posts[index];
+                              String? pagenum = post.get('page');
+                              String? content = post.get('post');
+                              bool? isPrivate = post.get('isPrivate');
+                              return Container(
+                                width: double.infinity,
+                                height: 90,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              pagenum.toString(),
-                                              style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: Colors.blue),
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Container(
-                                              child: Center(
-                                                child: Text(
-                                                  '내 공개 피드',
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 13),
-                                                ),
-                                              ),
-                                              width: 80,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                    5,
-                                                  )),
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: Colors.red,
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
                                         Text(
-                                          content!,
+                                          pagenum.toString(),
                                           style: TextStyle(
-                                            color: Colors.white,
-                                          ),
+                                              fontSize: 17, color: Colors.blue),
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          width: 15,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text('00/00/00'),
-                                            Spacer(),
-                                            Icon(
-                                              Icons.thumb_up_alt_outlined,
-                                              color: Colors.white,
-                                              size: 20,
+                                        Container(
+                                          child: Center(
+                                            child: Text(
+                                              '내 공개 피드',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 13),
                                             ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Divider(
-                                              color: Colors.grey,
-                                              height: 1,
-                                            ),
-                                          ],
-                                        )
+                                          ),
+                                          width: 80,
+                                          height: 20,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                5,
+                                              )),
+                                              border: Border.all(
+                                                width: 1,
+                                                color: Colors.red,
+                                              )),
+                                        ),
                                       ],
                                     ),
-                                  );
-                                };
-                                itemCount:
-                                10;
-                                shrinkWrap:
-                                true;
-                                padding:
-                                EdgeInsets.all(5);
-                                scrollDirection:
-                                Axis.vertical;
-                              },
-                            );
-                          }),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      content!,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('00/00/00'),
+                                        Spacer(),
+                                        Icon(
+                                          Icons.thumb_up_alt_outlined,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Divider(
+                                          color: Colors.grey,
+                                          height: 1,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+
+                              itemCount:
+                              10;
+                              shrinkWrap:
+                              true;
+                              padding:
+                              EdgeInsets.all(5);
+                              scrollDirection:
+                              Axis.vertical;
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
