@@ -236,10 +236,7 @@ class ClubService extends ChangeNotifier {
   }
 
   Future<QuerySnapshot> readpost(String docID) async {
-    return ClubCollection.doc(docID)
-        .collection('Feed')
-        .where('docID', isEqualTo: docID)
-        .get();
+    return ClubCollection.doc(docID).collection('Feed').get();
   }
 //코드 치고 들어갔을 때, members에 추가
 

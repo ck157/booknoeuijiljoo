@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:booknoejilju/pages/Lobby_members.dart';
+import 'package:booknoejilju/pages/create_club.dart';
+import 'package:booknoejilju/services/auth_service.dart';
+import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Lobby.dart';
-import 'auth_service.dart';
-import 'bookclub_service.dart';
-import 'create_club.dart';
-import 'lobby_members.dart';
 
 void main() {
   runApp(EntrancePage());
@@ -31,7 +30,7 @@ class EntrancePage extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: 20.0,
+                        height: 30.0,
                         width: 500.0,
                         color: Colors.black,
                       ),
@@ -40,37 +39,23 @@ class EntrancePage extends StatelessWidget {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       Container(
-                        height: 100.0,
+                        height: 40.0,
                         width: 500.0,
                         color: Colors.black,
                       ),
                       Container(
-                        child: Image.asset('lib/images/egg.png'),
-                        height: 150.0,
-                        width: 300.0,
+                        child: Image.asset('lib/images/Splash_Character.png'),
+                        height: 180.0,
+                        width: 400.0,
                       ),
                       Container(
                         height: 20.0,
                         width: 500.0,
                         color: Colors.black,
                       ),
-                      Container(
-                        width: 200,
-                        child: TextFormField(
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                            suffixIcon: Icon(
-                              CupertinoIcons.pen,
-                              color: Colors.white,
-                            ),
-                            hintText: '닉네임을 입력해주세요',
-                            hintStyle: TextStyle(color: Colors.grey[600]),
-                          ),
-                        ),
+                      Text(
+                        'bookiebookie33',
+                        style: TextStyle(fontSize: 20, color: Colors.blue),
                       ),
                       Container(
                         height: 50.0,
@@ -83,12 +68,13 @@ class EntrancePage extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateClub()),
+                              builder: (context) => CreateClub(),
+                            ),
                           );
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.red,
-                          minimumSize: Size(360, 50),
+                          minimumSize: Size(380, 50),
                         ),
                         label: Text(
                           '내 북클럽 입장하기',
@@ -100,15 +86,15 @@ class EntrancePage extends StatelessWidget {
                         icon: Icon(Icons.add, size: 18, color: Colors.white),
                       ),
                       Container(
-                        height: 40.0,
+                        height: 60.0,
                         width: 500.0,
                         color: Colors.black,
                       ),
                       Text(
                         '''다른 사람의 초대번호를 입력하고
-    북클럽 방으로 입장해보세요.''',
+                  북클럽 방으로 입장해보세요.''',
                         style: TextStyle(
-                          color: Colors.grey[500],
+                          color: Colors.white,
                           fontSize: 15,
                         ),
                       ),
@@ -118,28 +104,31 @@ class EntrancePage extends StatelessWidget {
                         color: Colors.black,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 200,
-                            color: Colors.grey[850],
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
+                            width: 200.0,
+                            child: Expanded(
+                              child: TextField(
+                                controller: _codecontroller,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                  labelText: "영문,숫자 9자리 조합",
+                                  labelStyle: TextStyle(color: Colors.grey),
                                 ),
-                                hintText: '영문,숫자 20자리 조합',
-                                hintStyle: TextStyle(color: Colors.grey),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           Container(
-                            height: 50.0,
+                            height: 20.0,
                             width: 2.0,
                             color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 10.0,
                           ),
                           ElevatedButton.icon(
                             onPressed: () async {
