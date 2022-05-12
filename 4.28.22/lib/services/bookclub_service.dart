@@ -234,6 +234,10 @@ class ClubService extends ChangeNotifier {
     });
     notifyListeners(); // 화면 갱신
   }
+
+  Future<QuerySnapshot> readpost(String uid) async {
+    return ClubCollection.where('uid', isEqualTo: uid).get();
+  }
 //코드 치고 들어갔을 때, members에 추가
 
   Future getCount(String? docId) async => FirebaseFirestore.instance
