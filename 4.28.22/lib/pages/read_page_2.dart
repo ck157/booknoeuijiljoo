@@ -30,6 +30,7 @@ class ReadPageState extends State<ReadPage> {
   Widget build(BuildContext context) {
     final authService = context.read<AuthService>();
     final user = authService.currentUser()!;
+    final docID = authService.docId;
     String pages = authService.totalpage as String;
     return Consumer<ClubService>(
       builder: (context, clubService, child) {
@@ -256,7 +257,7 @@ class ReadPageState extends State<ReadPage> {
                   SliverToBoxAdapter(
                     child: Container(
                       child: FutureBuilder<QuerySnapshot>(
-                          future: clubService.readpost(user.uid),
+                          future: clubService.readpost(docID!),
                           builder: (context, snapshot) {
                             final posts = snapshot.data?.docs ?? []; // 문서들 가져오기
                             return ListView.builder(
