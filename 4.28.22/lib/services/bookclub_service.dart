@@ -119,15 +119,15 @@ class ClubService extends ChangeNotifier {
 
 /////////////////////////////////////////
   Future<String> create_club(
-    String name,
-    String bookname,
-    String leader,
-    //초기에 지정 안되는 값
-    String clubrule,
-    String goaldate,
-    String totalpages,
-    String todaygoal,
-  ) async {
+      String name,
+      String bookname,
+      String leader,
+      //초기에 지정 안되는 값
+      String clubrule,
+      String goaldate,
+      String totalpages,
+      String todaygoal,
+      String currentpage) async {
     // post 작성하기
     DocumentReference<Map<String, dynamic>> ref = await ClubCollection.add({
       'name': name,
@@ -138,6 +138,7 @@ class ClubService extends ChangeNotifier {
       'goal_date': goaldate,
       'total_pages': totalpages,
       'today_goal': todaygoal,
+      'current_page': currentpage,
     });
 
     return ref.id;
@@ -185,6 +186,16 @@ class ClubService extends ChangeNotifier {
   ) async {
     await ClubCollection.doc(docId).update(
       {'today_goal': page},
+    );
+    notifyListeners();
+  }
+
+  void current_page_update(
+    String docId,
+    String page,
+  ) async {
+    await ClubCollection.doc(docId).update(
+      {'current_page': page},
     );
     notifyListeners();
   }
