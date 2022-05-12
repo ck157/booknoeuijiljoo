@@ -6,10 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 import 'Lobby.dart';
 import 'Writing.dart';
-import 'auth_service.dart';
-import 'bookclub_service.dart';
 
 class ReadPage extends StatefulWidget {
   const ReadPage({Key? key}) : super(key: key);
@@ -53,7 +54,6 @@ class ReadPageState extends State<ReadPage> {
                       ),
                     ],
                   ),
-
                   body: Stack(
                     children: [
                       CustomScrollView(
@@ -84,7 +84,7 @@ class ReadPageState extends State<ReadPage> {
                               ),
                             ),
                             bottom: PreferredSize(
-                              preferredSize: Size.fromHeight(200),
+                              preferredSize: Size.fromHeight(220),
                               child: Column(
                                 children: [
                                   Row(
@@ -272,7 +272,7 @@ class ReadPageState extends State<ReadPage> {
                           SliverToBoxAdapter(
                             child: SizedBox(
                               width: double.infinity,
-                              height: 180,
+                              height: posts.length.toDouble() * 90,
                               child: ListView.builder(
                                 controller: scrollController,
                                 itemCount: posts.length,
@@ -364,90 +364,29 @@ class ReadPageState extends State<ReadPage> {
                       ),
                     ],
                   ),
-                  floatingActionButton: Positioned(
-                    right: 30,
-                    bottom: 20,
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(
-                          30,
-                        )),
-                        color: Colors.red,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WritingPage()),
-                          );
-                        },
-                        icon: Icon(
-                          CupertinoIcons.pen,
-                          color: Colors.white,
-                        ),
+                  floatingActionButton: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(
+                        30,
+                      )),
+                      color: Colors.red,
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WritingPage()),
+                        );
+                      },
+                      icon: Icon(
+                        CupertinoIcons.pen,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-
-                  // body: Column(
-                  //   children: [
-                  //     MyBookPetWidget(),
-                  //     SizedBox(
-                  //       height: 20,
-                  //     ),
-
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //       child: Container(
-                  //         width: 70,
-                  //         height: 80,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //       child: Container(
-                  //         width: 70,
-                  //         height: 80,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //       child: Container(
-                  //         width: 70,
-                  //         height: 80,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //       child: Container(
-                  //         width: 70,
-                  //         height: 80,
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.grey,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-
-                  // ],
-                  // ),
                 );
               });
         },
