@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -151,6 +152,7 @@ class ClubService extends ChangeNotifier {
     await ClubCollection.doc(docId).collection('members').add({
       'uid': uid,
       'readpages': '0',
+      'rank': '0',
     });
 
     notifyListeners();
@@ -206,6 +208,70 @@ class ClubService extends ChangeNotifier {
     });
 
     notifyListeners();
+  }
+
+  int? my_rank(
+    String docId,
+    String uid,
+    String currentreadpage,
+  ) {
+    List members_pages = [];
+    CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
+        .instance
+        .collection('Book')
+        .doc(docId)
+        .collection('members');
+    member.get().then(
+      (querySnapshot) {
+        querySnapshot.docs.forEach(
+          (document) async {
+            DocumentSnapshot<Map<String, dynamic>> docref =
+                await ClubCollection.doc(docId)
+                    .collection('members')
+                    .doc(document.id)
+                    .get();
+            members_pages.add(docref.data()?['readpages']);
+            members_pages.sort();
+            int count = 0;
+
+            members_pages.forEach(
+              (element) {
+                if (element != currentreadpage) {
+                  count += 1;
+                } else if (element == currentreadpage) {
+                  return;
+                }
+              },
+            );
+
+            QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
+                .instance
+                .collection('Book')
+                .doc(docId)
+                .collection('members')
+                .where('uid', isEqualTo: uid)
+                .get();
+
+            FirebaseFirestore.instance
+                .collection('Book')
+                .doc(docId)
+                .collection('members')
+                .doc(query.docs[0].id)
+                .update({'rank': (count + 1).toString()});
+
+            //왜 inspect하면, 3개나 뜰까?? ㅠㅠ
+            //내 생각엔 builder호출 될 때마다 그러는 듯
+            //futurebuilder까지 있으니까.
+
+            // members_pages.forEach((element) {
+            //   for (var num in ) {
+
+            //   }
+            // });
+          },
+        );
+      },
+    );
   }
 
 //lobby에서 오늘 목표 업데이트

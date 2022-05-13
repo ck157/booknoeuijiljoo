@@ -61,21 +61,26 @@ class _SplashPageState extends State<SplashPage> {
                 .doc(currentdocId)
                 .collection('members');
 
-        memref.get().then((querySnapshot) {
-          querySnapshot.docs.forEach((document) async {
-            if (document.data()['uid'] == currentuid) {
-              DocumentSnapshot<Map<String, dynamic>> memdocref =
-                  await Provider.of<ClubService>(context, listen: false)
-                      .ClubCollection
-                      .doc(currentdocId)
-                      .collection('members')
-                      .doc(document.id)
-                      .get();
-              Provider.of<AuthService>(context, listen: false).readpage =
-                  memdocref.data()?['readpages'];
-            }
-          });
-        });
+        memref.get().then(
+          (querySnapshot) {
+            querySnapshot.docs.forEach(
+              (document) async {
+                if (document.data()['uid'] == currentuid) {
+                  DocumentSnapshot<Map<String, dynamic>> memdocref =
+                      await Provider.of<ClubService>(context, listen: false)
+                          .ClubCollection
+                          .doc(currentdocId)
+                          .collection('members')
+                          .doc(document.id)
+                          .get();
+
+                  Provider.of<AuthService>(context, listen: false).readpage =
+                      memdocref.data()?['readpages'];
+                }
+              },
+            );
+          },
+        );
 
         ////page 있는 경우 페이지 불러오기
         Provider.of<AuthService>(context, listen: false).totalpage =
@@ -88,7 +93,6 @@ class _SplashPageState extends State<SplashPage> {
             docuref.data()?['goal_date'];
         Provider.of<AuthService>(context, listen: false).bookname =
             docuref.data()?['bookname'];
-        // Provider.of<AuthService>(context, listen: false).currentpage =
 
         if (currentuid == null) {
           Navigator.pushReplacement(

@@ -27,6 +27,11 @@ class LobbyPage extends StatefulWidget {
 
 class _LobbyState extends State<LobbyPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     pageController.text = Provider.of<AuthService>(context).totalpage as String;
     _todayController.text =
@@ -42,6 +47,28 @@ class _LobbyState extends State<LobbyPage> {
 
     ///
     booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
+          .instance
+          .collection('Book')
+          .doc(Provider.of<AuthService>(context, listen: false).docId)
+          .collection('members')
+          .where('uid',
+              isEqualTo: Provider.of<AuthService>(context, listen: false).uid)
+          .get();
+
+      DocumentSnapshot<Map<String, dynamic>> docusnap = await FirebaseFirestore
+          .instance
+          .collection('Book')
+          .doc(Provider.of<AuthService>(context, listen: false).docId)
+          .collection('members')
+          .doc(query.docs[0].id)
+          .get();
+
+      Provider.of<AuthService>(context, listen: false).rank =
+          docusnap.data()?['rank'];
+    });
 
     super.didChangeDependencies();
   }
@@ -64,8 +91,16 @@ class _LobbyState extends State<LobbyPage> {
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
+        String? achievement = (int.parse(authService.readpage as String) *
+                100 /
+                int.parse(authService.totalpage as String))
+            .toString();
+
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
+            clubService.my_rank(authService.docId as String,
+                authService.uid as String, authService.readpage as String);
+
             return FutureBuilder<QuerySnapshot>(
               future: clubService.ClubCollection.where(
                 'leader',
@@ -363,7 +398,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '6%',
+                                          achievement.substring(0, 3) + '%',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
