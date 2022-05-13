@@ -9,6 +9,7 @@ class AuthService extends ChangeNotifier {
   String? goaldate;
   String? bookname;
   String? currentpage;
+  String? readpage;
 
   User? currentUser() {
     // 현재 유저(로그인 되지 않은 경우 null 반환)

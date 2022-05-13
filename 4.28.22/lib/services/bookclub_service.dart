@@ -119,15 +119,15 @@ class ClubService extends ChangeNotifier {
 
 /////////////////////////////////////////
   Future<String> create_club(
-      String name,
-      String bookname,
-      String leader,
-      //초기에 지정 안되는 값
-      String clubrule,
-      String goaldate,
-      String totalpages,
-      String todaygoal,
-      String currentpage) async {
+    String name,
+    String bookname,
+    String leader,
+    //초기에 지정 안되는 값
+    String clubrule,
+    String goaldate,
+    String totalpages,
+    String todaygoal,
+  ) async {
     // post 작성하기
     DocumentReference<Map<String, dynamic>> ref = await ClubCollection.add({
       'name': name,
@@ -138,7 +138,6 @@ class ClubService extends ChangeNotifier {
       'goal_date': goaldate,
       'total_pages': totalpages,
       'today_goal': todaygoal,
-      'current_page': currentpage,
     });
 
     return ref.id;
@@ -179,6 +178,36 @@ class ClubService extends ChangeNotifier {
     notifyListeners();
   }
 
+  void current_page_update(
+    String uid,
+    String docId,
+    String currentpage,
+  ) async {
+    // QuerySnapshot<Map<String, dynamic>> query = await ClubCollection.doc(docId)
+    //     .collection('members')
+    //     .where('uid', isEqualTo: uid)
+    //     .get();
+    CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
+        .instance
+        .collection('Book')
+        .doc(docId)
+        .collection('members');
+    member.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((document) {
+        if (document.data()['uid'] == uid) {
+          ClubCollection.doc(docId)
+              .collection('members')
+              .doc(document.id)
+              .update(
+            {'readpages': currentpage},
+          );
+        }
+      });
+    });
+
+    notifyListeners();
+  }
+
 //lobby에서 오늘 목표 업데이트
   void today_page_update(
     String docId,
@@ -186,16 +215,6 @@ class ClubService extends ChangeNotifier {
   ) async {
     await ClubCollection.doc(docId).update(
       {'today_goal': page},
-    );
-    notifyListeners();
-  }
-
-  void current_page_update(
-    String docId,
-    String page,
-  ) async {
-    await ClubCollection.doc(docId).update(
-      {'current_page': page},
     );
     notifyListeners();
   }
