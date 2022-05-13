@@ -102,12 +102,8 @@ class ReadPageState extends State<ReadPage> {
                               authService.currentpage = pageController.text;
                               clubService.total_page_update(
                                   inviteCode, pageController.text);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LobbyPage(),
-                                ),
-                              );
+                              Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: const Text(
                               '저장하고 나가기',
