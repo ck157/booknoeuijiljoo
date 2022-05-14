@@ -138,6 +138,35 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) async {
+        QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
+            .instance
+            .collection('Book')
+            .doc(Provider.of<AuthService>(context, listen: false).docId)
+            .collection('members')
+            .where('uid',
+                isEqualTo: Provider.of<AuthService>(context, listen: false).uid)
+            .get();
+
+        DocumentSnapshot<Map<String, dynamic>> docusnap =
+            await FirebaseFirestore.instance
+                .collection('Book')
+                .doc(Provider.of<AuthService>(context, listen: false).docId)
+                .collection('members')
+                .doc(query.docs[0].id)
+                .get();
+
+        Provider.of<AuthService>(context, listen: false).rank =
+            docusnap.data()?['rank'];
+      },
+    );
+
+    super.didChangeDependencies();
+  }
+
   Widget build(BuildContext context) {
     return Consumer<AuthService>(
       builder: (context, authService, child) {

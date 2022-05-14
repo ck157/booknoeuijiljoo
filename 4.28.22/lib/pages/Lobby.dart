@@ -33,31 +33,6 @@ class _LobbyState extends State<LobbyPage> {
 
   @override
   void didChangeDependencies() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
-          .instance
-          .collection('Book')
-          .doc(Provider.of<AuthService>(context, listen: false).docId)
-          .collection('members')
-          .where('uid',
-              isEqualTo: Provider.of<AuthService>(context, listen: false).uid)
-          .get();
-
-      DocumentSnapshot<Map<String, dynamic>> docusnap = await FirebaseFirestore
-          .instance
-          .collection('Book')
-          .doc(Provider.of<AuthService>(context, listen: false).docId)
-          .collection('members')
-          .doc(query.docs[0].id)
-          .get();
-
-      Provider.of<AuthService>(context, listen: false).rank =
-          docusnap.data()?['rank'];
-
-      String? currentrank =
-          Provider.of<AuthService>(context, listen: false).rank;
-    });
-
     /////////////////////////////////////////////////
 
     pageController.text = Provider.of<AuthService>(context).totalpage as String;
@@ -92,16 +67,24 @@ class _LobbyState extends State<LobbyPage> {
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-    // TextEditingController pageController = TextEditingController();
     return Consumer<AuthService>(
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        String? achievement =
-            (int.parse(Provider.of<AuthService>(context).readpage as String) *
-                    100 /
-                    int.parse(authService.totalpage as String))
-                .toString();
+        String? achievement = (int.parse(authService.readpage as String) *
+                100 /
+                int.parse(authService.totalpage as String))
+            .toString();
+
+        if (achievement.length == 1) {
+          achievement = achievement.substring(0, 1);
+        } else if (achievement.length == 2) {
+          achievement = achievement.substring(0, 2);
+        } else if (achievement.length == 3) {
+          achievement = achievement.substring(0, 3);
+        } else {
+          achievement = achievement.substring(0, 3);
+        }
 
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
@@ -405,7 +388,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          achievement.substring(0, 3) + '%',
+                                          (achievement as String) + '%',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
@@ -452,7 +435,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          currentrank,
+                                          currentrank + '등',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,

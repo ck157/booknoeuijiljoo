@@ -64,7 +64,7 @@ class _CreateClubState extends State<CreateClub> {
                       user.uid,
                       'clubrule',
                       '목표달성일을\n설정해보세요    ',
-                      '',
+                      '1',
                       '',
                     );
                     clubService.createmembers(

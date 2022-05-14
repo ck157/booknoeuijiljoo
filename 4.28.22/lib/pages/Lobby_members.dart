@@ -53,7 +53,7 @@ class _Lobby_memState extends State<Lobby_mem> {
 
                 final doc = docs?[0];
 
-                String inviteCode = doc?.get('docId');
+                String? inviteCode = doc?.get('docId');
                 DateTime club_date = DateTime.parse(doc?.get('goal_date'));
                 authService.totalpage = doc?['total_pages'];
 
@@ -205,7 +205,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                       children: [
                                         Text(
                                           // 초대 코드 생성.. or 아이디로 초대??
-                                          inviteCode,
+                                          inviteCode as String,
                                           style: TextStyle(
                                             color: Colors.white,
                                           ),
