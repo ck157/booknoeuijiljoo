@@ -54,9 +54,9 @@ class _SplashPageState extends State<SplashPage> {
                 .doc(currentdocId)
                 .get();
         String? currentleaderuid = docuref.data()?['leader'];
-
+////
         CollectionReference<Map<String, dynamic>> memref =
-            await Provider.of<ClubService>(context, listen: false)
+            Provider.of<ClubService>(context, listen: false)
                 .ClubCollection
                 .doc(currentdocId)
                 .collection('members');
@@ -81,6 +81,7 @@ class _SplashPageState extends State<SplashPage> {
             );
           },
         );
+////
 
         ////page 있는 경우 페이지 불러오기
         Provider.of<AuthService>(context, listen: false).totalpage =
@@ -103,12 +104,14 @@ class _SplashPageState extends State<SplashPage> {
           );
         } else if (currentdocId != 'unavailable') {
           if (currentuid == currentleaderuid) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LobbyPage(),
-              ),
-            );
+            Timer(
+                Duration(seconds: 3),
+                (() => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LobbyPage(),
+                      ),
+                    )));
           } else {
             // Provider.of<ClubService>(context)
             //     .createmembers(currentuid, currentdocId as String);
@@ -129,6 +132,9 @@ class _SplashPageState extends State<SplashPage> {
         }
       },
     );
+    Timer(Duration(seconds: 10), () {
+      print('timer finished');
+    });
     super.initState();
   }
 

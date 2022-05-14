@@ -210,17 +210,20 @@ class ClubService extends ChangeNotifier {
     notifyListeners();
   }
 
-  int? my_rank(
+  void my_rank(
     String docId,
     String uid,
     String currentreadpage,
-  ) {
+  ) async {
     List members_pages = [];
     CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
         .instance
         .collection('Book')
         .doc(docId)
         .collection('members');
+
+    QuerySnapshot<Map<String, dynamic>> ref = await member.get();
+
     member.get().then(
       (querySnapshot) {
         querySnapshot.docs.forEach(
@@ -257,7 +260,7 @@ class ClubService extends ChangeNotifier {
                 .doc(docId)
                 .collection('members')
                 .doc(query.docs[0].id)
-                .update({'rank': (count + 1).toString()});
+                .update({'rank': ((ref.docs.length) - (count)).toString()});
 
             //왜 inspect하면, 3개나 뜰까?? ㅠㅠ
             //내 생각엔 builder호출 될 때마다 그러는 듯

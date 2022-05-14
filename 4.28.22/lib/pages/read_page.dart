@@ -117,7 +117,7 @@ class ReadPageState extends State<ReadPage> {
                       );
                     },
                   );
-                  return shouldPop!;
+                  return shouldPop ?? true;
                 },
                 child: Scaffold(
                   appBar: AppBar(

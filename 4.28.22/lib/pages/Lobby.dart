@@ -33,21 +33,6 @@ class _LobbyState extends State<LobbyPage> {
 
   @override
   void didChangeDependencies() {
-    pageController.text = Provider.of<AuthService>(context).totalpage as String;
-    _todayController.text =
-        Provider.of<AuthService>(context).todaygoal as String;
-    date = Provider.of<AuthService>(context).goaldate;
-
-    ///
-    if (Provider.of<AuthService>(context).goaldate != '목표달성일을\n설정해보세요    ') {
-      selected_date =
-          DateTime.parse(Provider.of<AuthService>(context).goaldate as String);
-    }
-    inviteCode = Provider.of<AuthService>(context).docId as String;
-
-    ///
-    booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
-
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
           .instance
@@ -68,13 +53,34 @@ class _LobbyState extends State<LobbyPage> {
 
       Provider.of<AuthService>(context, listen: false).rank =
           docusnap.data()?['rank'];
+
+      String? currentrank =
+          Provider.of<AuthService>(context, listen: false).rank;
     });
+
+    /////////////////////////////////////////////////
+
+    pageController.text = Provider.of<AuthService>(context).totalpage as String;
+    _todayController.text =
+        Provider.of<AuthService>(context).todaygoal as String;
+    date = Provider.of<AuthService>(context).goaldate;
+
+    ///
+    if (Provider.of<AuthService>(context).goaldate != '목표달성일을\n설정해보세요    ') {
+      selected_date =
+          DateTime.parse(Provider.of<AuthService>(context).goaldate as String);
+    }
+    inviteCode = Provider.of<AuthService>(context).docId as String;
+
+    ///
+    booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
 
     super.didChangeDependencies();
   }
 
   String? date = '목표달성일을\n설정해보세요    ';
   String inviteCode = '';
+  String currentrank = '';
 
   DateTime today = DateTime.now();
   DateTime selected_date = DateTime.now();
@@ -91,10 +97,11 @@ class _LobbyState extends State<LobbyPage> {
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        String? achievement = (int.parse(authService.readpage as String) *
-                100 /
-                int.parse(authService.totalpage as String))
-            .toString();
+        String? achievement =
+            (int.parse(Provider.of<AuthService>(context).readpage as String) *
+                    100 /
+                    int.parse(authService.totalpage as String))
+                .toString();
 
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
@@ -445,7 +452,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '97등',
+                                          currentrank,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
