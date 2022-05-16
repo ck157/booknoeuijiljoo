@@ -194,18 +194,22 @@ class ClubService extends ChangeNotifier {
         .collection('Book')
         .doc(docId)
         .collection('members');
-    member.get().then((querySnapshot) {
-      querySnapshot.docs.forEach((document) {
-        if (document.data()['uid'] == uid) {
-          ClubCollection.doc(docId)
-              .collection('members')
-              .doc(document.id)
-              .update(
-            {'readpages': currentpage},
-          );
-        }
-      });
-    });
+    member.get().then(
+      (querySnapshot) {
+        querySnapshot.docs.forEach(
+          (document) {
+            if (document.data()['uid'] == uid) {
+              ClubCollection.doc(docId)
+                  .collection('members')
+                  .doc(document.id)
+                  .update(
+                {'readpages': currentpage},
+              );
+            }
+          },
+        );
+      },
+    );
 
     notifyListeners();
   }
@@ -234,7 +238,7 @@ class ClubService extends ChangeNotifier {
                     .doc(document.id)
                     .get();
             members_pages.add(docref.data()?['readpages']);
-            members_pages.sort();
+            members_pages.sort((b, a) => a.compareTo(b));
             int count = 0;
 
             members_pages.forEach(
@@ -260,7 +264,7 @@ class ClubService extends ChangeNotifier {
                 .doc(docId)
                 .collection('members')
                 .doc(query.docs[0].id)
-                .update({'rank': ((ref.docs.length) - (count)).toString()});
+                .update({'rank': ((count + 1)).toString()});
 
             //왜 inspect하면, 3개나 뜰까?? ㅠㅠ
             //내 생각엔 builder호출 될 때마다 그러는 듯

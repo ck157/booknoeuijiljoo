@@ -55,7 +55,6 @@ class _LobbyState extends State<LobbyPage> {
 
   String? date = '목표달성일을\n설정해보세요    ';
   String inviteCode = '';
-  String currentrank = '';
 
   DateTime today = DateTime.now();
   DateTime selected_date = DateTime.now();
@@ -75,7 +74,7 @@ class _LobbyState extends State<LobbyPage> {
                 100 /
                 int.parse(authService.totalpage as String))
             .toString();
-
+        // String? currentrank = authService.rank ?? '';
         if (achievement.length == 1) {
           achievement = achievement.substring(0, 1);
         } else if (achievement.length == 2) {
@@ -88,8 +87,8 @@ class _LobbyState extends State<LobbyPage> {
 
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
-            clubService.my_rank(authService.docId as String,
-                authService.uid as String, authService.readpage as String);
+            // clubService.my_rank(authService.docId as String,
+            //     authService.uid as String, authService.readpage as String);
 
             return FutureBuilder<QuerySnapshot>(
               future: clubService.ClubCollection.where(
@@ -435,7 +434,8 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          currentrank + '등',
+                                          // currentrank + '등',
+                                          '',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
