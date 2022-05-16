@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:booknoejilju/pages/bookclub_rule.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,10 +9,12 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../services/auth_service.dart';
-import '../services/bookclub_service.dart';
+
 import 'Splash.dart';
 
+import 'auth_service.dart';
+import 'bookclub_rule.dart';
+import 'bookclub_service.dart';
 import 'read_page.dart';
 
 class LobbyPage extends StatefulWidget {
@@ -140,6 +141,32 @@ class _LobbyState extends State<LobbyPage> {
                     body: SingleChildScrollView(
                       child: Column(
                         children: [
+                          Stack(
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                child: Image.asset('lib/images/Map.jpg'),
+                              ),
+                              Positioned(
+                                right: 200,
+                                bottom: 25,
+                                child: Image.asset('lib/images/Blue_Egg.jpg',
+                                    height: 35, width: 35),
+                              ),
+                              Positioned(
+                                left: 25,
+                                bottom: 15,
+                                child: Image.asset('lib/images/Red_Egg.jpg',
+                                    height: 35, width: 35),
+                              ),
+                              Positioned(
+                                right: 75,
+                                bottom: 20,
+                                child: Image.asset('lib/images/Green_Egg.jpg',
+                                    height: 35, width: 35),
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             height: 20,
                           ),
