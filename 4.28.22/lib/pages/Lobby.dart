@@ -141,31 +141,40 @@ class _LobbyState extends State<LobbyPage> {
                     body: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Stack(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: Image.asset('lib/images/Map.jpg'),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset('lib/images/Map.jpg'),
+                                  ),
+                                  Positioned(
+                                    right: 200,
+                                    bottom: 25,
+                                    child: Image.asset(
+                                        'lib/images/Blue_Egg.jpg',
+                                        height: 35,
+                                        width: 35),
+                                  ),
+                                  Positioned(
+                                    left: 25,
+                                    bottom: 15,
+                                    child: Image.asset('lib/images/Red_Egg.jpg',
+                                        height: 35, width: 35),
+                                  ),
+                                  Positioned(
+                                    right: 75,
+                                    bottom: 20,
+                                    child: Image.asset(
+                                        'lib/images/Green_Egg.jpg',
+                                        height: 35,
+                                        width: 35),
+                                  ),
+                                ],
                               ),
-                              Positioned(
-                                right: 200,
-                                bottom: 25,
-                                child: Image.asset('lib/images/Blue_Egg.jpg',
-                                    height: 35, width: 35),
-                              ),
-                              Positioned(
-                                left: 25,
-                                bottom: 15,
-                                child: Image.asset('lib/images/Red_Egg.jpg',
-                                    height: 35, width: 35),
-                              ),
-                              Positioned(
-                                right: 75,
-                                bottom: 20,
-                                child: Image.asset('lib/images/Green_Egg.jpg',
-                                    height: 35, width: 35),
-                              ),
-                            ],
+                            ),
                           ),
                           SizedBox(
                             height: 20,
