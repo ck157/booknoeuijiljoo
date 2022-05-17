@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:instagram/fullscreen.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -66,6 +67,8 @@ class _LobbyState extends State<LobbyPage> {
 
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    // 원하는 방향으로 화면 고정
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return Consumer<AuthService>(
       builder: (context, authService, child) {
@@ -174,6 +177,23 @@ class _LobbyState extends State<LobbyPage> {
                                           'lib/images/Green_Egg.jpg',
                                           height: 35,
                                           width: 35),
+                                    ),
+                                    Positioned(
+                                      left: 5,
+                                      top: 5,
+                                      child: IconButton(
+                                        icon: Icon(CupertinoIcons.fullscreen,
+                                            color: Colors.white),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  fullscreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
