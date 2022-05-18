@@ -37,7 +37,7 @@ class _Lobby_memState extends State<Lobby_mem> {
   @override
   void didChangeDependencies() {
     /////////////////////////////////////////////////
-    // String? currentrank = Provider.of<AuthService>(context).rank;
+    String? currentrank = Provider.of<AuthService>(context).rank;
     if (Provider.of<AuthService>(context).goaldate != '목표달성일을\n설정해보세요    ') {
       DateTime? club_date =
           DateTime.parse(Provider.of<AuthService>(context).goaldate as String);
@@ -55,7 +55,7 @@ class _Lobby_memState extends State<Lobby_mem> {
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        // String? currentrank = authService.rank;
+        String? currentrank = authService.rank;
         String? achievement = (int.parse(authService.readpage as String) *
                 100 /
                 int.parse(authService.totalpage as String))
@@ -222,7 +222,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                 Container(
                                   height: 60,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.48,
+                                      MediaQuery.of(context).size.width * 0.49,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(10),
@@ -240,6 +240,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           inviteCode as String,
                                           style: TextStyle(
                                             color: Colors.white,
+                                            fontSize: 13.5,
                                           ),
                                         ),
 
@@ -375,7 +376,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '등',
+                                          currentrank! + '등',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,

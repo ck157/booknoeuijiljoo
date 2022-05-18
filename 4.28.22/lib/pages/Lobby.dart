@@ -50,7 +50,7 @@ class _LobbyState extends State<LobbyPage> {
     ///
     booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
     _todayController.text = Provider.of<AuthService>(context).todaygoal ?? '';
-    // String? currentrank = Provider.of<AuthService>(context).rank;
+    String? currentrank = Provider.of<AuthService>(context).rank;
 
     super.didChangeDependencies();
   }
@@ -72,7 +72,7 @@ class _LobbyState extends State<LobbyPage> {
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        // String? currentrank = authService.rank;
+        String? currentrank = authService.rank;
         String? achievement = (int.parse(authService.readpage as String) *
                 100 /
                 int.parse(authService.totalpage as String))
@@ -498,7 +498,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          '등',
+                                          currentrank! + '등',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,

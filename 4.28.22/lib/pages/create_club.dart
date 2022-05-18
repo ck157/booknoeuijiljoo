@@ -88,6 +88,9 @@ class _CreateClubState extends State<CreateClub> {
                         await clubService.ClubCollection.doc(authService.docId)
                             .get();
                     authService.leader = snapshot.data()?['leader'];
+
+                    authService.rank = await clubService.get_my_rank(
+                        authService.docId, user.uid);
                     // LobbyPage로 이동
                     Navigator.pushReplacement(
                       context,

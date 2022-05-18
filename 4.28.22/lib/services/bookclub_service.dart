@@ -205,9 +205,9 @@ class ClubService extends ChangeNotifier {
       member_readpages_list.add(page);
     }
 
-    member_readpages_list.sort();
+    member_readpages_list.sort((b, a) => a.compareTo(b));
+    inspect(member_readpages_list);
     int my_rank = member_readpages_list.indexOf(my_readpage) + 1;
-    inspect(my_rank);
 
     return '$my_rank';
   }

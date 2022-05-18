@@ -83,6 +83,10 @@ class _SplashPageState extends State<SplashPage> {
           );
         } else if (currentdocId != 'unavailable') {
           if (currentuid == currentleaderuid) {
+            Provider.of<AuthService>(context, listen: false).rank =
+                await Provider.of<ClubService>(context, listen: false)
+                    .get_my_rank(currentdocId, currentuid);
+
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -90,6 +94,10 @@ class _SplashPageState extends State<SplashPage> {
               ),
             );
           } else {
+            Provider.of<AuthService>(context, listen: false).rank =
+                await Provider.of<ClubService>(context, listen: false)
+                    .get_my_rank(currentdocId, currentuid);
+
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

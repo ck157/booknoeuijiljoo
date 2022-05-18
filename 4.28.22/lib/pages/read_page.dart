@@ -211,15 +211,16 @@ class ReadPageState extends State<ReadPage> {
                                             Radius.circular(10)),
                                       ),
                                       child: TextFormField(
-                                        onEditingComplete: () {
-                                          clubService.get_my_rank(
-                                              docID, user.uid);
-
+                                        onEditingComplete: () async {
                                           clubService.read_page_update(
                                             user.uid,
                                             authService.docId as String,
                                             pageController.text,
                                           );
+
+                                          authService.rank = await clubService
+                                              .get_my_rank(docID, user.uid);
+                                          inspect(authService.rank);
                                           Provider.of<AuthService>(context,
                                                   listen: false)
                                               .readpage = pageController.text;

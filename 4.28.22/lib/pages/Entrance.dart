@@ -160,6 +160,11 @@ class EntrancePage extends StatelessWidget {
                                 authService.leader = docsnap.data()?['leader'];
 
                                 // authService.rank = ;
+                                Provider.of<AuthService>(context, listen: false)
+                                    .rank = await Provider.of<ClubService>(
+                                        context,
+                                        listen: false)
+                                    .get_my_rank(authService.docId, user.uid);
 
                                 Navigator.pushReplacement(
                                   context,
