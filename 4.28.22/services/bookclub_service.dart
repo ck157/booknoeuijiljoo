@@ -144,6 +144,13 @@ class ClubService extends ChangeNotifier {
     return ref.id;
   }
 
+  void createRule(String rule, String uid, String docId) async {
+    await ClubCollection.doc(docId).collection('members').add(
+      {'rule': rule},
+    );
+    notifyListeners();
+  }
+
   //Entrance에서 코드치고 들어갈 때,,
   void createmembers(
     String uid,
