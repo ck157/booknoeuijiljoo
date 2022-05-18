@@ -1,15 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/bookclub_service.dart';
+import 'package:provider/provider.dart';
+
+import 'auth_service.dart';
 
 void main() {
   runApp(BookClubRule());
 }
 
-class BookClubRule extends StatelessWidget {
+class BookClubRule extends StatefulWidget {
   const BookClubRule({Key? key}) : super(key: key);
 
   @override
+  State<BookClubRule> createState() => _BookClubRuleState();
+}
+
+class _BookClubRuleState extends State<BookClubRule> {
+  TextEditingController ruleController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    final authService = context.read<AuthService>();
+    final user = authService.currentUser()!;
+    final docID = authService.docId;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -23,7 +36,11 @@ class BookClubRule extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                if (ruleController.text.isNotEmpty) {
+                  // ClubService.createRule(ruleController.text, user.uid, docID!);
+                }
+              },
               child: Text(
                 '작성',
                 style: TextStyle(fontSize: 18, color: Colors.white),
@@ -53,6 +70,7 @@ class BookClubRule extends StatelessWidget {
               ),
               Container(height: 20.0, width: 500.0, color: Colors.black),
               TextField(
+                controller: ruleController,
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 10,
