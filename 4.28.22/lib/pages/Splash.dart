@@ -27,6 +27,7 @@ class _SplashPageState extends State<SplashPage> {
         //uid 저장하기
         Provider.of<AuthService>(context, listen: false).uid =
             Provider.of<AuthService>(context, listen: false).currentUser()?.uid;
+        //initstate에서 활용할 변수로 uid지정하기
         String? currentuid =
             Provider.of<AuthService>(context, listen: false).uid;
 
@@ -54,34 +55,12 @@ class _SplashPageState extends State<SplashPage> {
                 .doc(currentdocId)
                 .get();
         String? currentleaderuid = docuref.data()?['leader'];
-////
-        CollectionReference<Map<String, dynamic>> memref =
-            Provider.of<ClubService>(context, listen: false)
-                .ClubCollection
-                .doc(currentdocId)
-                .collection('members');
 
-        memref.get().then(
-          (querySnapshot) {
-            querySnapshot.docs.forEach(
-              (document) async {
-                if (document.data()['uid'] == currentuid) {
-                  DocumentSnapshot<Map<String, dynamic>> memdocref =
-                      await Provider.of<ClubService>(context, listen: false)
-                          .ClubCollection
-                          .doc(currentdocId)
-                          .collection('members')
-                          .doc(document.id)
-                          .get();
+        Provider.of<AuthService>(context, listen: false).leader =
+            currentleaderuid;
 
-                  Provider.of<AuthService>(context, listen: false).readpage =
-                      memdocref.data()?['readpages'];
-                }
-              },
-            );
-          },
-        );
-////
+        Provider.of<AuthService>(context, listen: false).readpage =
+            docuref.data()?['member_readpages'][currentuid];
 
         ////page 있는 경우 페이지 불러오기
         Provider.of<AuthService>(context, listen: false).totalpage =
@@ -104,17 +83,13 @@ class _SplashPageState extends State<SplashPage> {
           );
         } else if (currentdocId != 'unavailable') {
           if (currentuid == currentleaderuid) {
-            Timer(
-                Duration(seconds: 3),
-                (() => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LobbyPage(),
-                      ),
-                    )));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LobbyPage(),
+              ),
+            );
           } else {
-            // Provider.of<ClubService>(context)
-            //     .createmembers(currentuid, currentdocId as String);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -132,39 +107,11 @@ class _SplashPageState extends State<SplashPage> {
         }
       },
     );
+
     Timer(Duration(seconds: 10), () {
       print('timer finished');
     });
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
-            .instance
-            .collection('Book')
-            .doc(Provider.of<AuthService>(context, listen: false).docId)
-            .collection('members')
-            .where('uid',
-                isEqualTo: Provider.of<AuthService>(context, listen: false).uid)
-            .get();
-
-        DocumentSnapshot<Map<String, dynamic>> docusnap =
-            await FirebaseFirestore.instance
-                .collection('Book')
-                .doc(Provider.of<AuthService>(context, listen: false).docId)
-                .collection('members')
-                .doc(query.docs[0].id)
-                .get();
-
-        Provider.of<AuthService>(context, listen: false).rank =
-            docusnap.data()?['rank'];
-      },
-    );
-
-    super.didChangeDependencies();
   }
 
   Widget build(BuildContext context) {

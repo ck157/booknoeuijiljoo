@@ -139,6 +139,7 @@ class ClubService extends ChangeNotifier {
       'goal_date': goaldate,
       'total_pages': totalpages,
       'today_goal': todaygoal,
+      'member_readpages': {leader: '0'},
     });
 
     return ref.id;
@@ -151,10 +152,7 @@ class ClubService extends ChangeNotifier {
   ) async {
     await ClubCollection.doc(docId).collection('members').add({
       'uid': uid,
-      'readpages': '0',
-      'rank': '0',
     });
-
     notifyListeners();
   }
 
@@ -180,106 +178,61 @@ class ClubService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void current_page_update(
+  void read_page_update(
     String uid,
     String docId,
     String currentpage,
   ) async {
-    // QuerySnapshot<Map<String, dynamic>> query = await ClubCollection.doc(docId)
-    //     .collection('members')
-    //     .where('uid', isEqualTo: uid)
-    //     .get();
-    CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
-        .instance
-        .collection('Book')
-        .doc(docId)
-        .collection('members');
-    member.get().then(
-      (querySnapshot) {
-        querySnapshot.docs.forEach(
-          (document) {
-            if (document.data()['uid'] == uid) {
-              ClubCollection.doc(docId)
-                  .collection('members')
-                  .doc(document.id)
-                  .update(
-                {'readpages': currentpage},
-              );
-            }
-          },
-        );
-      },
-    );
-
-    notifyListeners();
+    FirebaseFirestore.instance.collection('Book').doc(docId).set({
+      'member_readpages': {uid: currentpage}
+    }, SetOptions(merge: true));
   }
 
-  void my_rank(
-    String docId,
-    String uid,
-    String currentreadpage,
+  Future<String> get_my_rank(
+    String? docId,
+    String? uid,
   ) async {
-    List members_pages = [];
-    CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
-        .instance
-        .collection('Book')
-        .doc(docId)
-        .collection('members');
+    DocumentSnapshot<Map<String, dynamic>> docusnap =
+        await FirebaseFirestore.instance.collection('Book').doc(docId).get();
 
-    QuerySnapshot<Map<String, dynamic>> ref = await member.get();
+    Map member_readpages = docusnap.data()?['member_readpages'];
 
-    member.get().then(
-      (querySnapshot) {
-        querySnapshot.docs.forEach(
-          (document) async {
-            DocumentSnapshot<Map<String, dynamic>> docref =
-                await ClubCollection.doc(docId)
-                    .collection('members')
-                    .doc(document.id)
-                    .get();
-            members_pages.add(docref.data()?['readpages']);
-            members_pages.sort((b, a) => a.compareTo(b));
-            int count = 0;
+    String my_readpage = docusnap.data()?['member_readpages'][uid];
 
-            members_pages.forEach(
-              (element) {
-                if (element != currentreadpage) {
-                  count += 1;
-                } else if (element == currentreadpage) {
-                  return;
-                }
-              },
-            );
+    List member_readpages_list = [];
 
-            QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore
-                .instance
-                .collection('Book')
-                .doc(docId)
-                .collection('members')
-                .where('uid', isEqualTo: uid)
-                .get();
+    for (var page in member_readpages.values) {
+      member_readpages_list.add(page);
+    }
 
-            FirebaseFirestore.instance
-                .collection('Book')
-                .doc(docId)
-                .collection('members')
-                .doc(query.docs[0].id)
-                .update({'rank': ((count + 1)).toString()});
+    member_readpages_list.sort();
+    int my_rank = member_readpages_list.indexOf(my_readpage) + 1;
+    inspect(my_rank);
 
-            //왜 inspect하면, 3개나 뜰까?? ㅠㅠ
-            //내 생각엔 builder호출 될 때마다 그러는 듯
-            //futurebuilder까지 있으니까.
-
-            // members_pages.forEach((element) {
-            //   for (var num in ) {
-
-            //   }
-            // });
-          },
-        );
-      },
-    );
+    return '$my_rank';
   }
+
+  // CollectionReference<Map<String, dynamic>> member = FirebaseFirestore
+  //     .instance
+  //     .collection('Book')
+  //     .doc(docId)
+  //     .collection('members');
+  // member.get().then(
+  //   (querySnapshot) {
+  //     querySnapshot.docs.forEach(
+  //       (document) {
+  //         if (document.data()['uid'] == uid) {
+  //           ClubCollection.doc(docId)
+  //               .collection('members')
+  //               .doc(document.id)
+  //               .update(
+  //             {'readpages': currentpage},
+  //           );
+  //         }
+  //       },
+  //     );
+  //   },
+  // );
 
 //lobby에서 오늘 목표 업데이트
   void today_page_update(
@@ -295,14 +248,14 @@ class ClubService extends ChangeNotifier {
   Future<dynamic> gettotalpages(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await ClubCollection.doc(docId).get();
-    print(snapshot.data());
+
     return snapshot.data()?['total_pages'];
   }
 
   Future<dynamic> gettodaypages(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
         await ClubCollection.doc(docId).get();
-    print(snapshot.data());
+
     return snapshot.data()?['today_goal'];
   }
 
@@ -380,3 +333,10 @@ class ClubService extends ChangeNotifier {
 ///
 ///
 /// FirebaseStore.instance .reference() .child('users') .child(FirebaseAuth.instance.currentUser?.uid ?? '') .child('currenDocId'); null != => Lobby(); null => Entrance();
+/// 
+/// 
+/// 
+/// 
+/// 
+
+/// 

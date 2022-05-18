@@ -4,11 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'Lobby.dart';
-import 'auth_service.dart';
-
-void main() {
-  runApp(fullscreen());
-}
 
 class fullscreen extends StatelessWidget {
   @override

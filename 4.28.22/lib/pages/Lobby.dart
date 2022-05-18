@@ -1,21 +1,20 @@
 import 'dart:developer';
 
+import 'package:booknoejilju/pages/bookclub_rule.dart';
+import 'package:booknoejilju/pages/fullscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:instagram/fullscreen.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
+import '../services/auth_service.dart';
+import '../services/bookclub_service.dart';
 import 'Splash.dart';
 
-import 'auth_service.dart';
-import 'bookclub_rule.dart';
-import 'bookclub_service.dart';
 import 'read_page.dart';
 
 class LobbyPage extends StatefulWidget {
@@ -36,7 +35,6 @@ class _LobbyState extends State<LobbyPage> {
   @override
   void didChangeDependencies() {
     /////////////////////////////////////////////////
-
     pageController.text = Provider.of<AuthService>(context).totalpage as String;
     _todayController.text =
         Provider.of<AuthService>(context).todaygoal as String;
@@ -51,6 +49,8 @@ class _LobbyState extends State<LobbyPage> {
 
     ///
     booknameController.text = Provider.of<AuthService>(context).bookname ?? '';
+    _todayController.text = Provider.of<AuthService>(context).todaygoal ?? '';
+    // String? currentrank = Provider.of<AuthService>(context).rank;
 
     super.didChangeDependencies();
   }
@@ -67,18 +67,17 @@ class _LobbyState extends State<LobbyPage> {
 
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    // 원하는 방향으로 화면 고정
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     return Consumer<AuthService>(
       builder: (context, authService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
+        // String? currentrank = authService.rank;
         String? achievement = (int.parse(authService.readpage as String) *
                 100 /
                 int.parse(authService.totalpage as String))
             .toString();
-        // String? currentrank = authService.rank ?? '';
+
         if (achievement.length == 1) {
           achievement = achievement.substring(0, 1);
         } else if (achievement.length == 2) {
@@ -88,12 +87,11 @@ class _LobbyState extends State<LobbyPage> {
         } else {
           achievement = achievement.substring(0, 3);
         }
+        //위치 조정 변수 multiple설정
         var multiple = int.parse(achievement.split(".")[0]);
+        //
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
-            // clubService.my_rank(authService.docId as String,
-            //     authService.uid as String, authService.readpage as String);
-
             return FutureBuilder<QuerySnapshot>(
               future: clubService.ClubCollection.where(
                 'leader',
@@ -203,6 +201,10 @@ class _LobbyState extends State<LobbyPage> {
                           SizedBox(
                             height: 20,
                           ),
+
+                          SizedBox(
+                            height: 20,
+                          ),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -300,6 +302,7 @@ class _LobbyState extends State<LobbyPage> {
                                               selected_date = e;
                                               clubService.update_goal_date(
                                                   inviteCode, date as String);
+                                              authService.goaldate = date;
                                             });
                                           },
                                           currentTime: DateTime.now(),
@@ -341,7 +344,7 @@ class _LobbyState extends State<LobbyPage> {
                                 Container(
                                   height: 60,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.48,
+                                      MediaQuery.of(context).size.width * 0.49,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(10),
@@ -359,6 +362,7 @@ class _LobbyState extends State<LobbyPage> {
                                           inviteCode,
                                           style: TextStyle(
                                             color: Colors.white,
+                                            fontSize: 13.5,
                                           ),
                                         ),
 
@@ -494,8 +498,7 @@ class _LobbyState extends State<LobbyPage> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          // currentrank + '등',
-                                          '',
+                                          '등',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
@@ -707,6 +710,7 @@ class _LobbyState extends State<LobbyPage> {
                                             clubService.total_page_update(
                                                 inviteCode,
                                                 pageController.text);
+                                            setState(() {});
                                           },
                                           color: Colors.white,
                                           iconSize: 30,
@@ -786,6 +790,8 @@ class _LobbyState extends State<LobbyPage> {
                                           clubService.today_page_update(
                                               inviteCode,
                                               _todayController.text);
+                                          authService.todaygoal =
+                                              _todayController.text;
                                         },
                                         color: Colors.white,
                                         iconSize: 30,
