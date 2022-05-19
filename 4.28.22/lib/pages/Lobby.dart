@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:booknoejilju/pages/bookclub_rule.dart';
-import 'package:booknoejilju/pages/fullscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,10 +9,12 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../services/auth_service.dart';
-import '../services/bookclub_service.dart';
 import 'Splash.dart';
 
+import 'auth_service.dart';
+import 'bookclub_rule.dart';
+import 'bookclub_service.dart';
+import 'fullscreen.dart';
 import 'read_page.dart';
 
 class LobbyPage extends StatefulWidget {
@@ -153,28 +153,79 @@ class _LobbyState extends State<LobbyPage> {
                                       child: Image.asset('lib/images/Map.jpg'),
                                     ),
                                     Positioned(
+                                      top: 150,
+                                      child: Image.asset(
+                                        'lib/images/backlight.png',
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 556,
+                                      top: 150,
+                                      child: Image.asset(
+                                        'lib/images/backlight.png',
+                                      ),
+                                    ),
+                                    Positioned(
                                       left: 1150 * multiple / 100,
-                                      bottom: 25,
+                                      bottom: 90,
                                       child: Image.asset(
-                                          'lib/images/Blue_Egg.jpg',
+                                          'lib/images/Red_Mon.png',
                                           height: 35,
                                           width: 35),
                                     ),
                                     Positioned(
-                                      left: 25,
-                                      bottom: 15,
+                                      left: 130,
+                                      bottom: 50,
                                       child: Image.asset(
-                                          'lib/images/Red_Egg.jpg',
+                                          'lib/images/Red_Egg.png',
                                           height: 35,
                                           width: 35),
                                     ),
                                     Positioned(
-                                      right: 75,
-                                      bottom: 20,
+                                      left: 300,
+                                      bottom: 50,
                                       child: Image.asset(
-                                          'lib/images/Green_Egg.jpg',
+                                          'lib/images/Green_Mon.png',
                                           height: 35,
                                           width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 700,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Green_Egg.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 400,
+                                      bottom: 50,
+                                      child: Image.asset(
+                                          'lib/images/Green_Mon2.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 200,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Red_Mon2.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 350,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Blue_Mon.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 60,
+                                      bottom: 70,
+                                      child: Image.asset('lib/images/goal.png',
+                                          height: 130, width: 100),
                                     ),
                                     Positioned(
                                       left: 5,
@@ -198,10 +249,6 @@ class _LobbyState extends State<LobbyPage> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-
                           SizedBox(
                             height: 20,
                           ),
