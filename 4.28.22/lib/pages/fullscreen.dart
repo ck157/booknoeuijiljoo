@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'Lobby.dart';
+import 'Lobby_son.dart';
+import 'auth_service.dart';
+
+void main() {
+  runApp(fullscreen());
+}
 
 class fullscreen extends StatelessWidget {
   @override
@@ -24,22 +29,65 @@ class fullscreen extends StatelessWidget {
                   child: Image.asset('lib/images/Map.jpg'),
                 ),
                 Positioned(
-                  left: 25,
-                  bottom: 25,
-                  child: Image.asset('lib/images/Blue_Egg.jpg',
+                  top: 200,
+                  child: Image.asset(
+                    'lib/images/backlight.png',
+                  ),
+                ),
+                Positioned(
+                  left: 556,
+                  top: 200,
+                  child: Image.asset(
+                    'lib/images/backlight.png',
+                  ),
+                ),
+                Positioned(
+                  left: 10,
+                  bottom: 130,
+                  child: Image.asset('lib/images/Red_Mon.png',
                       height: 35, width: 35),
                 ),
                 Positioned(
-                  left: 25,
-                  bottom: 15,
-                  child: Image.asset('lib/images/Red_Egg.jpg',
+                  left: 130,
+                  bottom: 90,
+                  child: Image.asset('lib/images/Red_Egg.png',
                       height: 35, width: 35),
                 ),
                 Positioned(
-                  right: 75,
-                  bottom: 20,
-                  child: Image.asset('lib/images/Green_Egg.jpg',
+                  left: 300,
+                  bottom: 90,
+                  child: Image.asset('lib/images/Green_Mon.png',
                       height: 35, width: 35),
+                ),
+                Positioned(
+                  right: 700,
+                  bottom: 130,
+                  child: Image.asset('lib/images/Green_Egg.png',
+                      height: 35, width: 35),
+                ),
+                Positioned(
+                  right: 400,
+                  bottom: 90,
+                  child: Image.asset('lib/images/Green_Mon2.png',
+                      height: 35, width: 35),
+                ),
+                Positioned(
+                  right: 200,
+                  bottom: 130,
+                  child: Image.asset('lib/images/Red_Mon2.png',
+                      height: 35, width: 35),
+                ),
+                Positioned(
+                  right: 350,
+                  bottom: 130,
+                  child: Image.asset('lib/images/Blue_Mon.png',
+                      height: 35, width: 35),
+                ),
+                Positioned(
+                  right: 60,
+                  bottom: 110,
+                  child: Image.asset('lib/images/goal.png',
+                      height: 130, width: 100),
                 ),
                 Positioned(
                   left: 20,
