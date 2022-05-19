@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:booknoejilju/services/auth_service.dart';
-import 'package:booknoejilju/services/bookclub_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +13,11 @@ import 'Entrance.dart';
 import 'LoginPage.dart';
 import 'Splash.dart';
 
+import 'auth_service.dart';
 import 'bookclub_rule.dart';
 
+import 'bookclub_service.dart';
+import 'fullscreen.dart';
 import 'read_page.dart';
 
 class Lobby_mem extends StatefulWidget {
@@ -70,6 +71,9 @@ class _Lobby_memState extends State<Lobby_mem> {
         } else {
           achievement = achievement.substring(0, 3);
         }
+        //위치 조정 변수 multiple설정
+        var multiple = int.parse(achievement.split(".")[0]);
+        //
 
         return Consumer<ClubService>(
           builder: (context, clubService, child) {
@@ -131,6 +135,113 @@ class _Lobby_memState extends State<Lobby_mem> {
                     body: SingleChildScrollView(
                       child: Column(
                         children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              child: Center(
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      child: Image.asset('lib/images/Map.jpg'),
+                                    ),
+                                    Positioned(
+                                      top: 150,
+                                      child: Image.asset(
+                                        'lib/images/backlight.png',
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 556,
+                                      top: 150,
+                                      child: Image.asset(
+                                        'lib/images/backlight.png',
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 1150 * multiple / 100,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Red_Mon.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      left: 130,
+                                      bottom: 50,
+                                      child: Image.asset(
+                                          'lib/images/Red_Egg.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      left: 300,
+                                      bottom: 50,
+                                      child: Image.asset(
+                                          'lib/images/Green_Mon.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 700,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Green_Egg.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 400,
+                                      bottom: 50,
+                                      child: Image.asset(
+                                          'lib/images/Green_Mon2.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 200,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Red_Mon2.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 350,
+                                      bottom: 90,
+                                      child: Image.asset(
+                                          'lib/images/Blue_Mon.png',
+                                          height: 35,
+                                          width: 35),
+                                    ),
+                                    Positioned(
+                                      right: 60,
+                                      bottom: 70,
+                                      child: Image.asset('lib/images/goal.png',
+                                          height: 130, width: 100),
+                                    ),
+                                    Positioned(
+                                      left: 5,
+                                      top: 5,
+                                      child: IconButton(
+                                        icon: Icon(CupertinoIcons.fullscreen,
+                                            color: Colors.white),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  fullscreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 20,
                           ),
