@@ -538,7 +538,10 @@ class _Lobby_memState extends State<Lobby_mem> {
                                           top: 30,
                                         ),
                                         child: Text(
-                                          club_date
+                                          DateTime.parse(
+                                                      Provider.of<AuthService>(
+                                                              context)
+                                                          .goaldate as String)
                                                   .difference(DateTime.now())
                                                   .inDays
                                                   .toString() +
