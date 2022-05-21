@@ -163,56 +163,56 @@ class _Lobby_memState extends State<Lobby_mem> {
                                       bottom: 90,
                                       child: Image.asset(
                                           'lib/images/Red_Mon.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       left: 130,
                                       bottom: 50,
                                       child: Image.asset(
                                           'lib/images/Red_Egg.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       left: 300,
                                       bottom: 50,
                                       child: Image.asset(
                                           'lib/images/Green_Mon.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       right: 700,
                                       bottom: 90,
                                       child: Image.asset(
                                           'lib/images/Green_Egg.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       right: 400,
                                       bottom: 50,
                                       child: Image.asset(
                                           'lib/images/Green_Mon2.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       right: 200,
                                       bottom: 90,
                                       child: Image.asset(
                                           'lib/images/Red_Mon2.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       right: 350,
                                       bottom: 90,
                                       child: Image.asset(
                                           'lib/images/Blue_Mon.png',
-                                          height: 35,
-                                          width: 35),
+                                          height: 55,
+                                          width: 55),
                                     ),
                                     Positioned(
                                       right: 60,
