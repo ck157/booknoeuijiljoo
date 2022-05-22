@@ -162,15 +162,15 @@ class _Lobby_memState extends State<Lobby_mem> {
                                       left: 1150 * multiple / 100,
                                       bottom: 90,
                                       child: Image.asset(
-                                          'lib/images/Red_Mon.png',
-                                          height: 55,
-                                          width: 55),
+                                          'lib/images/Main_character.png',
+                                          height: 75,
+                                          width: 75),
                                     ),
                                     Positioned(
                                       left: 130,
                                       bottom: 50,
                                       child: Image.asset(
-                                          'lib/images/Red_Egg.png',
+                                          'lib/images/Blue_Mon.png',
                                           height: 55,
                                           width: 55),
                                     ),
@@ -210,7 +210,7 @@ class _Lobby_memState extends State<Lobby_mem> {
                                       right: 350,
                                       bottom: 90,
                                       child: Image.asset(
-                                          'lib/images/Blue_Mon.png',
+                                          'lib/images/Green_Egg.png',
                                           height: 55,
                                           width: 55),
                                     ),
