@@ -399,7 +399,7 @@ class _LobbyState extends State<LobbyPage> {
                                     color: Colors.grey.shade800,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding: const EdgeInsets.all(10.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
